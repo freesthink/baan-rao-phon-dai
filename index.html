@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>บ้านเราผ่อนได้</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07090f;--s1:#0d1117;--s2:#141a22;--s3:#1a2230;
+  --b1:#1e2836;--b2:#263040;--b3:#3a4a5e;
+  --t1:#edf2f8;--t2:#8fa3b8;--t3:#4a6278;
+  --blue:#3d8ef0;--blue-d:#1a5fb0;--blue-g:rgba(61,142,240,0.15);
+  --green:#2ecc87;--green-d:#0d8a52;--green-g:rgba(46,204,135,0.12);
+  --red:#f05252;--red-g:rgba(240,82,82,0.1);
+  --gold:#f0a030;--gold-g:rgba(240,160,48,0.1);
+  --orange:#f07830;
+  --r:14px;--rs:9px;
+  --fd:'Chakra Petch',monospace;--fb:'Noto Sans Thai',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fb);font-size:15px;line-height:1.5;overscroll-behavior:none;}
+::-webkit-scrollbar{width:3px;height:3px;}::-webkit-scrollbar-thumb{background:var(--b2);}
+
+.page{display:none;animation:fadeIn .25s ease;} .page.active{display:block;} #pg-login.active{display:flex;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+.nav{position:sticky;top:0;z-index:90;background:rgba(7,9,15,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--b1);padding:0 16px;height:52px;display:flex;align-items:center;gap:10px;}
+.nav-back{background:none;border:none;color:var(--t2);cursor:pointer;padding:6px 8px;border-radius:8px;display:flex;align-items:center;}
+.nav-title{font-size:15px;font-weight:700;flex:1;}
+.nav-right{display:flex;gap:6px;}
+.ibtn{background:var(--s2);border:1px solid var(--b1);color:var(--t2);cursor:pointer;padding:7px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.ibtn:active{background:var(--s3);}
+
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:90;background:rgba(13,17,23,.97);backdrop-filter:blur(16px);border-top:1px solid var(--b1);display:flex;height:58px;padding-bottom:env(safe-area-inset-bottom);}
+.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;color:var(--t3);font-size:10px;font-weight:600;border:none;background:none;transition:color .2s;font-family:var(--fb);}
+.bnav-item.active{color:var(--blue);}
+.bnav-item svg{width:20px;height:20px;}
+
+.eyebrow{font-size:10px;color:var(--t3);font-family:var(--fd);letter-spacing:1.5px;text-transform:uppercase;}
+.display{font-size:36px;font-weight:800;font-family:var(--fd);letter-spacing:-1px;line-height:1;}
+.display-sm{font-size:24px;font-weight:800;font-family:var(--fd);letter-spacing:-0.5px;line-height:1.1;}
+.sec-title{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:1px;font-family:var(--fd);}
+
+.card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:16px;}
+.card-sm{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rs);padding:12px;}
+
+.fg{margin-bottom:12px;}
+.fl{display:block;font-size:11px;color:var(--t3);margin-bottom:5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;}
+.fi{width:100%;padding:11px 13px;background:var(--s2);border:1px solid var(--b1);border-radius:var(--rs);color:var(--t1);font-family:var(--fb);font-size:15px;outline:none;transition:border-color .2s;}
+.fi:focus{border-color:var(--blue);}
+.fi::placeholder{color:var(--t3);}
+select.fi{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234a6278' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;}
+select.fi option{background:var(--s2);color:var(--t1);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.form-note{font-size:11px;color:var(--t3);margin-top:5px;line-height:1.5;}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:12px 20px;border-radius:var(--rs);border:none;cursor:pointer;font-family:var(--fb);font-size:14px;font-weight:700;transition:all .15s;letter-spacing:.1px;}
+.btn-primary{background:var(--blue);color:#fff;}
+.btn-primary:active{background:var(--blue-d);}
+.btn-green{background:var(--green);color:#07090f;}
+.btn-green:active{background:var(--green-d);}
+.btn-ghost{background:var(--s2);color:var(--t1);border:1px solid var(--b1);}
+.btn-ghost:active{border-color:var(--blue);color:var(--blue);}
+.btn-danger{background:var(--red-g);color:var(--red);border:1px solid rgba(240,82,82,.25);}
+.btn-gold{background:var(--gold-g);color:var(--gold);border:1px solid rgba(240,160,48,.3);}
+.btn-sm{padding:7px 13px;font-size:12px;}
+.btn-full{width:100%;padding:14px;}
+
+.slider-wrap{padding:4px 0 8px;}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;background:var(--b2);border-radius:3px;outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--blue);cursor:pointer;box-shadow:0 0 0 4px var(--blue-g);}
+
+.prog-track{height:7px;background:var(--s2);border-radius:4px;overflow:hidden;}
+.prog-bar{height:100%;border-radius:4px;transition:width .5s cubic-bezier(.4,0,.2,1);}
+
+.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:12px;font-weight:700;font-family:var(--fd);}
+.pill-blue{background:rgba(61,142,240,.12);border:1px solid rgba(61,142,240,.25);color:var(--blue);}
+.pill-green{background:var(--green-g);border:1px solid rgba(46,204,135,.25);color:var(--green);}
+.pill-red{background:var(--red-g);border:1px solid rgba(240,82,82,.25);color:var(--red);}
+.pill-gold{background:var(--gold-g);border:1px solid rgba(240,160,48,.3);color:var(--gold);}
+.pill-orange{background:rgba(240,120,48,.1);border:1px solid rgba(240,120,48,.25);color:var(--orange);}
+
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:200;display:none;align-items:flex-end;justify-content:center;}
+.overlay.open{display:flex;}
+.modal{background:var(--s1);border:1px solid var(--b2);border-radius:var(--r) var(--r) 0 0;width:100%;max-width:500px;max-height:92vh;overflow-y:auto;}
+.mdrag{width:40px;height:4px;background:var(--b2);border-radius:2px;margin:10px auto 0;}
+.mhead{padding:16px 16px 0;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.mtitle{font-size:18px;font-weight:800;}
+.mclose{background:none;border:none;color:var(--t3);cursor:pointer;font-size:20px;padding:2px 6px;}
+.mbody{padding:0 16px 16px;}
+.mfoot{padding:12px 16px;border-top:1px solid var(--b1);display:flex;gap:8px;align-items:center;}
+.divider{height:1px;background:var(--b1);margin:14px 0;}
+
+.hcard{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:16px;cursor:pointer;position:relative;overflow:hidden;transition:transform .12s;animation:fadeIn .3s ease both;}
+.hcard:active{transform:scale(.975);}
+.hcard-stripe{position:absolute;top:0;left:0;bottom:0;width:3px;border-radius:14px 0 0 14px;}
+.hcard-glow{position:absolute;top:0;right:0;width:140px;height:140px;border-radius:50%;opacity:.05;pointer-events:none;transform:translate(40px,-50px);}
+
+.toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--s3);border:1px solid var(--b2);color:var(--t1);padding:10px 20px;border-radius:40px;font-size:13px;font-weight:600;z-index:999;white-space:nowrap;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+.empty{text-align:center;padding:48px 20px;color:var(--t3);}
+.empty svg{width:44px;height:44px;margin-bottom:14px;opacity:.3;}
+.empty p{font-size:14px;line-height:1.6;}
+
+.suggest-card{border-radius:var(--r);padding:16px;margin-bottom:10px;border:1px solid;}
+.suggest-blue{background:rgba(61,142,240,.07);border-color:rgba(61,142,240,.2);}
+.suggest-green{background:rgba(46,204,135,.06);border-color:rgba(46,204,135,.2);}
+.suggest-gold{background:var(--gold-g);border-color:rgba(240,160,48,.25);}
+.suggest-orange{background:rgba(240,120,48,.07);border-color:rgba(240,120,48,.2);}
+.suggest-title{font-size:13px;font-weight:700;margin-bottom:6px;}
+.suggest-body{font-size:13px;color:var(--t2);line-height:1.6;}
+
+.affiliate-banner{background:linear-gradient(135deg,rgba(240,160,48,.1),rgba(61,142,240,.08));border:1px solid rgba(240,160,48,.3);border-radius:var(--r);padding:16px;margin-bottom:12px;}
+
+.cp{display:flex;gap:10px;}
+.cp-dot{width:30px;height:30px;border-radius:50%;cursor:pointer;transition:transform .12s;border:2.5px solid transparent;}
+.cp-dot.sel{transform:scale(1.2);}
+
+canvas{max-width:100%;}
+.chart-wrap{position:relative;}
+
+.tabs{display:flex;background:var(--s1);border-bottom:1px solid var(--b1);}
+.tabbtn{flex:1;padding:12px 6px;cursor:pointer;font-size:13px;font-weight:600;color:var(--t3);border-bottom:2px solid transparent;margin-bottom:-1px;border-top:none;border-left:none;border-right:none;background:none;font-family:var(--fb);transition:all .2s;}
+.tabbtn.active{color:var(--blue);border-bottom-color:var(--blue);}
+
+.pcontent{padding:16px;padding-bottom:80px;}
+.sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.mt8{margin-top:8px;}.mt12{margin-top:12px;}.mt16{margin-top:16px;}
+.flex{display:flex;}.items-center{align-items:center;}.gap-8{gap:8px;}.justify-between{justify-content:space-between;}
+
+/* ── LINE BROWSER WARNING ── */
+.line-warn{
+  background:linear-gradient(135deg,rgba(61,142,240,.12),rgba(61,142,240,.04));
+  border:1px solid rgba(61,142,240,.3);
+  border-radius:var(--r);
+  padding:18px;
+  margin-bottom:20px;
+}
+.line-warn-title{font-size:15px;font-weight:800;color:var(--blue);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.line-warn-step{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}
+.line-warn-num{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.line-warn-text{font-size:13px;color:var(--t2);line-height:1.6;}
+.line-warn-text strong{color:var(--t1);}
+
+/* ── GUEST MODE BADGE ── */
+.guest-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:20px;
+  background:rgba(240,160,48,.1);border:1px solid rgba(240,160,48,.25);
+  color:var(--gold);font-size:12px;font-weight:700;
+  margin-bottom:12px;
+}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+<!-- ══════════ PAGE: LOGIN ══════════ -->
+<div class="page" id="pg-login" style="min-height:100vh;flex-direction:column;padding:32px 20px;background:var(--bg);">
+
+  <!-- Hero -->
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-bottom:20px;">
+    <div style="font-size:52px;margin-bottom:16px;">🏠</div>
+    <div class="eyebrow" style="margin-bottom:8px;">MORTGAGE TRACKER</div>
+    <div style="font-size:28px;font-weight:800;letter-spacing:-0.5px;margin-bottom:8px;">บ้าน<span style="color:var(--blue)">เรา</span>ผ่อนได้</div>
+    <div style="font-size:14px;color:var(--t2);line-height:1.7;max-width:280px;margin:0 auto 0;">
+      เครื่องมือช่วยวางแผนผ่อนบ้าน<br>ดูยอดหนี้ จำลองโปะ ประหยัดดอกเบี้ย
+    </div>
+  </div>
+
+  <!-- Login Card -->
+  <div style="background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:20px;">
+
+    <!-- Line Browser Warning — แสดงเฉพาะบน Line -->
+    <div id="line-browser-warn" style="display:none;">
+      <div class="line-warn">
+        <div class="line-warn-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          เปิดในเบราว์เซอร์จริงก่อนนะครับ
+        </div>
+        <div class="line-warn-step">
+          <div class="line-warn-num">1</div>
+          <div class="line-warn-text">แตะ <strong>··· (สามจุด)</strong> มุมขวาบนของ Line</div>
+        </div>
+        <div class="line-warn-step">
+          <div class="line-warn-num">2</div>
+          <div class="line-warn-text">เลือก <strong>"เปิดในเบราว์เซอร์"</strong> หรือ <strong>"Open in Chrome / Safari"</strong></div>
+        </div>
+        <div class="line-warn-step" style="margin-bottom:0;">
+          <div class="line-warn-num">3</div>
+          <div class="line-warn-text">แล้วค่อยกด Login ได้เลยครับ 🎉</div>
+        </div>
+      </div>
+
+      <!-- ทางเลือก: ใช้แบบ Guest ไม่ต้อง Login -->
+      <div style="text-align:center;margin-bottom:16px;">
+        <div style="font-size:12px;color:var(--t3);margin-bottom:10px;">หรือลองใช้แบบ Guest ก่อน (ข้อมูลไม่ sync ข้ามเครื่อง)</div>
+        <button onclick="signInAsGuest()" class="btn btn-green btn-full">
+          ✦ ใช้แบบ Guest Mode (ไม่ต้อง Login)
+        </button>
+      </div>
+      <div style="text-align:center;margin-bottom:4px;">
+        <div style="font-size:12px;color:var(--t3);margin-bottom:8px;">— หรือถ้าเปิดใน Chrome/Safari แล้ว —</div>
+      </div>
+    </div>
+
+    <!-- Google Login Button — ซ่อนบน Line -->
+    <div id="google-login-wrap">
+      <button id="login-btn" onclick="signInWithGoogle()" style="display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:14px 20px;background:#fff;color:#1a1a1a;border:none;border-radius:var(--r);font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.15);transition:all 0.2s;font-family:var(--fb);margin-bottom:12px;">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        เข้าสู่ระบบด้วย Google
+      </button>
+
+      <!-- Guest Mode -->
+      <button onclick="signInAsGuest()" class="btn btn-ghost btn-full" style="margin-bottom:12px;">
+        ✦ ใช้แบบ Guest Mode (ไม่ต้อง Login)
+      </button>
+    </div>
+
+    <div style="margin-top:8px;font-size:11px;color:var(--t3);line-height:1.7;text-align:center;">
+      🛡️ ข้อมูลของคุณเก็บในบัญชี Google ของคุณเท่านั้น<br>ไม่มีการแชร์ให้บุคคลอื่น
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PAGE: HOME ══════════ -->
+<div class="page" id="pg-home">
+  <div style="padding:24px 16px 0;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(61,142,240,.07),transparent 70%);pointer-events:none;"></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+      <div>
+        <div class="eyebrow">MORTGAGE TRACKER</div>
+        <div style="font-size:27px;font-weight:800;letter-spacing:-.5px;margin-top:2px;">บ้าน<span style="color:var(--blue)">เรา</span>ผ่อนได้</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- USER INFO BAR -->
+  <div id="user-bar" style="display:flex;align-items:center;gap:8px;padding:8px 16px 0;">
+    <img id="user-photo" src="" width="22" height="22" style="border-radius:50%;display:none;" onload="this.style.display='inline'">
+    <span id="user-display-name" style="font-size:12px;color:var(--t3);flex:1;"></span>
+    <span id="guest-badge-home" style="display:none;" class="guest-badge">👤 Guest Mode</span>
+    <button onclick="handleSignOut()" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:11px;font-family:var(--fb);padding:2px 6px;border-radius:4px;" id="signout-btn">ออกจากระบบ</button>
+  </div>
+
+  <!-- SUMMARY STRIP -->
+  <div style="margin:14px 16px 0;background:linear-gradient(135deg,rgba(61,142,240,.13),rgba(61,142,240,.04));border:1px solid rgba(61,142,240,.22);border-radius:var(--r);padding:16px;">
+    <div class="eyebrow" style="color:var(--blue);">หนี้รวมทุกหลัง</div>
+    <div class="display mt8" id="H-total">฿0</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);margin-top:14px;padding-top:12px;border-top:1px solid rgba(61,142,240,.13);">
+      <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;">ดอก/เดือน</div><div style="font-size:14px;font-weight:700;color:var(--red);margin-top:2px;" id="H-int">฿0</div></div>
+      <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;">จำนวนหลัง</div><div style="font-size:14px;font-weight:700;margin-top:2px;" id="H-cnt">0 หลัง</div></div>
+      <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;">ประหยัดจากโปะ</div><div style="font-size:14px;font-weight:700;color:var(--green);margin-top:2px;" id="H-saved">฿0</div></div>
+    </div>
+  </div>
+
+  <div id="home-alerts"></div>
+
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:18px 16px 10px;">
+    <div class="sec-title">บ้านของฉัน</div>
+    <div style="display:flex;gap:6px;">
+      <button class="btn btn-ghost btn-sm" onclick="openBackupModal()">💾 Backup</button>
+      <button class="btn btn-primary btn-sm" onclick="openAddHouse()">+ เพิ่มหลัง</button>
+    </div>
+  </div>
+  <div style="padding:0 16px;display:flex;flex-direction:column;gap:10px;" id="house-list"></div>
+  <div style="padding:10px 16px 32px;">
+    <button onclick="openAddHouse()" style="width:100%;padding:14px;border:1.5px dashed var(--b2);border-radius:var(--r);background:none;color:var(--t3);cursor:pointer;font-family:var(--fb);font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      เพิ่มบ้านหลังใหม่
+    </button>
+  </div>
+</div>
+
+<!-- ══════════ PAGE: MAGIC SLIDER ══════════ -->
+<div class="page" id="pg-magic">
+  <div style="padding:20px 16px 0;">
+    <div class="eyebrow">เครื่องคำนวณ</div>
+    <div style="font-size:22px;font-weight:800;margin-top:2px;">จำลองการโปะหนี้ <span style="color:var(--green)">✦</span></div>
+    <div style="font-size:13px;color:var(--t2);margin-top:4px;">ไม่ต้องสมัคร ไม่ต้อง login กรอก 3 ช่อง รู้คำตอบทันที</div>
+  </div>
+
+  <div class="pcontent" style="padding-top:16px;">
+    <div class="card" style="margin-bottom:12px;background:linear-gradient(135deg,rgba(61,142,240,.08),var(--s1));border-color:rgba(61,142,240,.2);">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="flex:1;">
+          <div class="sec-title" style="color:var(--blue);margin-bottom:6px;">🏠 เลือกดูข้อมูลบ้าน</div>
+          <select class="fi" id="mg-house-select" onchange="onSelectHouse(this.value)" style="cursor:pointer;">
+            <option value="">— กรอกเองแบบ Manual —</option>
+          </select>
+        </div>
+        <button class="ibtn" onclick="refreshHouseSelect()" style="flex-shrink:0;padding:10px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+        </button>
+      </div>
+      <div id="mg-house-info" style="display:none;margin-top:10px;padding:10px;background:var(--s2);border-radius:var(--rs);font-size:13px;color:var(--t2);line-height:1.7;"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div class="sec-title">ข้อมูลที่ใช้คำนวณ</div>
+        <span id="mg-source-label" style="font-size:11px;color:var(--t3);"></span>
+      </div>
+      <div class="form-row">
+        <div class="fg" style="margin-bottom:0">
+          <label class="fl">ยอดหนี้คงเหลือ (฿)</label>
+          <input class="fi" id="mg-balance" type="number" placeholder="6,425,000" value="6425436" oninput="onManualEdit()">
+        </div>
+        <div class="fg" style="margin-bottom:0">
+          <label class="fl">ดอกเบี้ย (%/ปี)</label>
+          <input class="fi" id="mg-rate" type="number" step="0.001" placeholder="2.8" value="2.8" oninput="onManualEdit()">
+        </div>
+      </div>
+      <div class="fg" style="margin-top:10px;margin-bottom:0">
+        <label class="fl">ผ่อนต่อเดือน (฿)</label>
+        <input class="fi" id="mg-monthly" type="number" placeholder="22,200" value="22200" oninput="onManualEdit()">
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:12px;background:linear-gradient(135deg,rgba(46,204,135,.07),var(--s1));border-color:rgba(46,204,135,.2);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <div>
+          <div class="sec-title" style="color:var(--green);">✦ Magic Slider — โปะเพิ่มต่อเดือน</div>
+        </div>
+        <div style="font-size:22px;font-weight:800;font-family:var(--fd);color:var(--green);" id="mg-extra-display">฿5,000</div>
+      </div>
+      <div class="slider-wrap">
+        <input type="range" id="mg-slider" min="0" max="50000" step="500" value="5000" oninput="onSlide(this.value)">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-top:4px;">
+          <span>฿0</span><span>฿25,000</span><span>฿50,000</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
+        <button class="btn btn-ghost btn-sm" onclick="setSlider(0)">ไม่โปะ</button>
+        <button class="btn btn-ghost btn-sm" onclick="setSlider(2000)">2K</button>
+        <button class="btn btn-ghost btn-sm" onclick="setSlider(5000)">5K</button>
+        <button class="btn btn-ghost btn-sm" onclick="setSlider(10000)">10K</button>
+        <button class="btn btn-ghost btn-sm" onclick="setSlider(20000)">20K</button>
+        <button class="btn btn-ghost btn-sm" onclick="setSlider(50000)">50K</button>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+      <div style="background:linear-gradient(135deg,rgba(46,204,135,.1),var(--s1));border:1px solid rgba(46,204,135,.25);border-radius:var(--r);padding:16px;">
+        <div class="sec-title" style="color:var(--green);margin-bottom:6px;">⚡ เร็วขึ้น</div>
+        <div style="font-size:26px;font-weight:800;font-family:var(--fd);color:var(--green);line-height:1.1;" id="mg-faster">— ปี</div>
+        <div style="font-size:12px;color:var(--t2);margin-top:4px;" id="mg-from-to"></div>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(61,142,240,.1),var(--s1));border:1px solid rgba(61,142,240,.25);border-radius:var(--r);padding:16px;">
+        <div class="sec-title" style="color:var(--blue);margin-bottom:6px;">💰 ประหยัดดอก</div>
+        <div style="font-size:26px;font-weight:800;font-family:var(--fd);color:var(--blue);line-height:1.1;" id="mg-saved">฿0</div>
+        <div style="font-size:12px;color:var(--t2);margin-top:4px;" id="mg-roi"></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:12px;">
+      <div class="sec-title" style="margin-bottom:12px;">กราฟเปรียบเทียบ</div>
+      <div class="chart-wrap"><canvas id="mg-chart" height="200"></canvas></div>
+    </div>
+
+    <div class="affiliate-banner">
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div style="font-size:28px;">🏦</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:4px;">สนใจ Refinance เพื่อลดดอกเบี้ย?</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.6;">เปลี่ยนธนาคาร ลดดอกได้ถึง 1-2% ต่อปี ประหยัดได้อีกหลักแสน</div>
+          <a href="#" onclick="affiliateClick(event)" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:8px 16px;background:var(--gold);color:#07090f;border-radius:var(--rs);font-size:13px;font-weight:700;text-decoration:none;">
+            ⚡ เช็คอัตรา Refinance ฟรี →
+          </a>
+        </div>
+      </div>
+    </div>
+    <div style="height:4px;"></div>
+  </div>
+</div>
+
+<!-- ══════════ PAGE: HOUSE DETAIL ══════════ -->
+<div class="page" id="pg-house">
+  <div class="nav">
+    <button class="nav-back" onclick="showMainPage('pg-home')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <div class="nav-title" id="h-nav-title"></div>
+    <div class="nav-right">
+      <button class="ibtn" onclick="openExport()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+      <button class="ibtn" onclick="openEditHouse()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></button>
+    </div>
+  </div>
+  <div class="tabs" id="h-tabs">
+    <button class="tabbtn active" onclick="switchHTab('dash')">📊 ภาพรวม</button>
+    <button class="tabbtn" onclick="switchHTab('hist')">📅 ประวัติ</button>
+    <button class="tabbtn" onclick="switchHTab('suggest')">💡 คำแนะนำ</button>
+    <button class="tabbtn" onclick="switchHTab('rate')">📋 ดอกเบี้ย</button>
+  </div>
+  <div id="h-content"></div>
+</div>
+
+<!-- ══════════ MODALS (เหมือนเดิมทุกอย่าง) ══════════ -->
+
+<!-- ADD/EDIT HOUSE -->
+<div class="overlay" id="m-house">
+  <div class="modal">
+    <div class="mdrag"></div>
+    <div class="mhead"><div class="mtitle" id="mh-title">เพิ่มบ้านหลังใหม่</div><button class="mclose" onclick="closeModal('m-house')">✕</button></div>
+    <div class="mbody">
+      <div class="fg"><label class="fl">ชื่อบ้าน / โครงการ</label><input class="fi" id="f-name" placeholder="เช่น บ้านลาดพร้าว"></div>
+      <div class="form-row">
+        <div class="fg"><label class="fl">ยอดกู้ตั้งต้น (฿)</label><input class="fi" id="f-loan" type="number" placeholder="6,632,184"></div>
+        <div class="fg"><label class="fl">ยอดคงเหลือปัจจุบัน</label><input class="fi" id="f-balance" type="number" placeholder="6,425,436"></div>
+      </div>
+      <div class="form-row">
+        <div class="fg"><label class="fl">ผ่อน/เดือน (฿)</label><input class="fi" id="f-monthly" type="number" placeholder="22,200"></div>
+        <div class="fg"><label class="fl">ครบกำหนดวันที่</label><input class="fi" id="f-dueday" type="number" min="1" max="28" placeholder="28"></div>
+      </div>
+      <div class="fg"><label class="fl">เริ่มสัญญา (เดือน-ปี)</label><input class="fi" id="f-start" type="month"></div>
+      <div class="fg"><label class="fl">สีบ้าน</label>
+        <div class="cp" id="cp">
+          <div class="cp-dot sel" data-c="blue" style="background:#3d8ef0" onclick="pickColor('blue')"></div>
+          <div class="cp-dot" data-c="green" style="background:#2ecc87" onclick="pickColor('green')"></div>
+          <div class="cp-dot" data-c="gold" style="background:#f0a030" onclick="pickColor('gold')"></div>
+          <div class="cp-dot" data-c="purple" style="background:#a78bfa" onclick="pickColor('purple')"></div>
+          <div class="cp-dot" data-c="teal" style="background:#2dd4bf" onclick="pickColor('teal')"></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div class="sec-title">ดอกเบี้ยขั้นบันได</div>
+        <button class="btn btn-ghost btn-sm" onclick="addTier()">+ เพิ่มช่วง</button>
+      </div>
+      <div id="tier-inputs"></div>
+      <p class="form-note">💡 กำหนดยอดผ่อนแยกแต่ละช่วงได้ — งวด 37+ ดอกขึ้น ค่างวดก็เพิ่มตาม</p>
+    </div>
+    <div class="mfoot" id="mh-foot">
+      <button class="btn btn-ghost" style="flex:1" onclick="closeModal('m-house')">ยกเลิก</button>
+      <button class="btn btn-primary" style="flex:2" id="mh-save-btn" onclick="saveHouse()">บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD/EDIT PAYMENT -->
+<div class="overlay" id="m-pay">
+  <div class="modal">
+    <div class="mdrag"></div>
+    <div class="mhead"><div class="mtitle" id="mp-title">บันทึกการผ่อน</div><button class="mclose" onclick="closeModal('m-pay')">✕</button></div>
+    <div class="mbody">
+      <div class="fg"><label class="fl">เดือน-ปี</label><input class="fi" id="p-month" type="month"></div>
+      <div class="form-row">
+        <div class="fg"><label class="fl">ยอดผ่อนปกติ</label><input class="fi" id="p-reg" type="number"></div>
+        <div class="fg"><label class="fl">ยอดโปะเพิ่ม</label><input class="fi" id="p-extra" type="number" placeholder="0"></div>
+      </div>
+      <div class="fg"><label class="fl">หมายเหตุ</label><input class="fi" id="p-note" placeholder="เช่น โบนัสปีใหม่"></div>
+      <div id="p-hint" style="margin-top:8px;"></div>
+    </div>
+    <div class="mfoot" id="mp-foot">
+      <button class="btn btn-ghost" style="flex:1" onclick="closeModal('m-pay')">ยกเลิก</button>
+      <button class="btn btn-primary" style="flex:2" id="mp-save-btn" onclick="savePayment()">บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<!-- RATE UPDATE -->
+<div class="overlay" id="m-rate">
+  <div class="modal">
+    <div class="mdrag"></div>
+    <div class="mhead"><div class="mtitle">อัปเดตดอกเบี้ย (Retention)</div><button class="mclose" onclick="closeModal('m-rate')">✕</button></div>
+    <div class="mbody">
+      <div style="background:rgba(240,120,48,.08);border:1px solid rgba(240,120,48,.2);border-radius:var(--rs);padding:12px;margin-bottom:14px;font-size:13px;color:var(--t2);">
+        <strong style="color:var(--orange);">Retention</strong> — ระบบจะบันทึกอัตราใหม่ตั้งแต่เดือนที่เลือก
+      </div>
+      <div class="fg"><label class="fl">มีผลตั้งแต่เดือน</label><input class="fi" id="r-month" type="month"></div>
+      <div class="form-row">
+        <div class="fg"><label class="fl">อัตราดอกเบี้ยใหม่ (%/ปี)</label><input class="fi" id="r-rate" type="number" step="0.01" placeholder="4.50"></div>
+        <div class="fg"><label class="fl">ยอดผ่อนใหม่/เดือน</label><input class="fi" id="r-monthly" type="number"></div>
+      </div>
+      <div class="fg"><label class="fl">หมายเหตุ</label><input class="fi" id="r-note" placeholder="เช่น Retention ปีที่ 3 SCB"></div>
+    </div>
+    <div class="mfoot">
+      <button class="btn btn-ghost" style="flex:1" onclick="closeModal('m-rate')">ยกเลิก</button>
+      <button class="btn btn-gold" style="flex:2" onclick="saveRateUpdate()">บันทึก Retention</button>
+    </div>
+  </div>
+</div>
+
+<!-- REFINANCE -->
+<div class="overlay" id="m-refi">
+  <div class="modal">
+    <div class="mdrag"></div>
+    <div class="mhead"><div class="mtitle">Refinance</div><button class="mclose" onclick="closeModal('m-refi')">✕</button></div>
+    <div class="mbody">
+      <div style="background:var(--red-g);border:1px solid rgba(240,82,82,.2);border-radius:var(--rs);padding:12px;margin-bottom:14px;font-size:13px;color:var(--t2);">
+        <strong style="color:var(--red);">⚠️ Reset สัญญา</strong> — ประวัติเดิมจะถูก Archive ไว้ครบ
+      </div>
+      <div class="fg"><label class="fl">วันที่ Refinance</label><input class="fi" id="rf-month" type="month"></div>
+      <div class="fg"><label class="fl">ธนาคารใหม่</label><input class="fi" id="rf-bank" placeholder="เช่น KBank, BBL, KRUNGTHAI"></div>
+      <div class="form-row">
+        <div class="fg"><label class="fl">ยอดกู้ใหม่</label><input class="fi" id="rf-loan" type="number"></div>
+        <div class="fg"><label class="fl">ผ่อน/เดือน</label><input class="fi" id="rf-mo" type="number"></div>
+      </div>
+      <div class="fg"><label class="fl">ดอกเบี้ยช่วงแรก (%/ปี)</label><input class="fi" id="rf-rate" type="number" step="0.01" placeholder="2.5"></div>
+    </div>
+    <div class="mfoot">
+      <button class="btn btn-ghost" style="flex:1" onclick="closeModal('m-refi')">ยกเลิก</button>
+      <button class="btn btn-danger" style="flex:2" onclick="saveRefinance()">ยืนยัน Refinance</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXPORT -->
+<div class="overlay" id="m-export">
+  <div class="modal">
+    <div class="mdrag"></div>
+    <div class="mhead"><div class="mtitle">Export ข้อมูล</div><button class="mclose" onclick="closeModal('m-export')">✕</button></div>
+    <div class="mbody"><div id="export-items"></div></div>
+    <div class="mfoot"><button class="btn btn-ghost btn-full" onclick="closeModal('m-export')">ปิด</button></div>
+  </div>
+</div>
+
+<!-- BACKUP/RESTORE -->
+<div class="overlay" id="m-backup">
+  <div class="modal">
+    <div class="mdrag"></div>
+    <div class="mhead"><div class="mtitle">💾 Backup & Restore</div><button class="mclose" onclick="closeModal('m-backup')">✕</button></div>
+    <div class="mbody">
+      <div style="background:rgba(46,204,135,.06);border:1px solid rgba(46,204,135,.2);border-radius:var(--rs);padding:12px;margin-bottom:14px;font-size:13px;color:var(--t2);line-height:1.6;">
+        ย้ายข้อมูลระหว่างเครื่อง หรือเก็บ Backup ไว้เอง
+      </div>
+      <button class="btn btn-green btn-full" style="margin-bottom:10px;" onclick="backupJSON()">📥 Download Backup (.json)</button>
+      <button class="btn btn-ghost btn-full" onclick="document.getElementById('restore-file').click()">📤 Restore จากไฟล์ .json</button>
+      <input type="file" id="restore-file" accept=".json" style="display:none" onchange="restoreJSON(this)">
+      <p class="form-note" style="margin-top:10px;">⚠️ Restore จะแทนที่ข้อมูลทั้งหมดในเครื่องนี้</p>
+    </div>
+    <div class="mfoot"><button class="btn btn-ghost btn-full" onclick="closeModal('m-backup')">ปิด</button></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<!-- ══════════ PAGE: ABOUT ══════════ -->
+<div class="page" id="pg-about">
+  <div style="padding:28px 16px 0;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-60px;right:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(61,142,240,.07),transparent 70%);pointer-events:none;"></div>
+    <div class="eyebrow" style="margin-bottom:6px;">ABOUT</div>
+    <div style="font-size:24px;font-weight:800;letter-spacing:-.5px;">เกี่ยวกับ<span style="color:var(--blue)">แอป</span></div>
+  </div>
+
+  <div style="padding:20px 16px 100px;display:flex;flex-direction:column;gap:14px;">
+
+    <!-- ส่วนที่ 1: ทักทายจากผู้พัฒนา -->
+    <div style="background:linear-gradient(135deg,rgba(61,142,240,.1),rgba(61,142,240,.03));border:1px solid rgba(61,142,240,.25);border-radius:var(--r);padding:20px;position:relative;overflow:hidden;">
+      <div style="position:absolute;bottom:-20px;right:-20px;font-size:80px;opacity:.06;pointer-events:none;">🏠</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <div style="width:44px;height:44px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">👋</div>
+        <div>
+          <div style="font-size:15px;font-weight:800;color:var(--t1);">สวัสดีครับ</div>
+          <div style="font-size:12px;color:var(--t3);margin-top:1px;">จากผู้พัฒนา</div>
+        </div>
+      </div>
+      <div style="font-size:14px;color:var(--t2);line-height:1.9;">
+        ผมบิว <strong style="color:var(--t1);">Isarapong Sornsena</strong> ผู้พัฒนาแอปนี้ครับ<br><br>
+        ในฐานะมนุษย์เงินเดือนคนหนึ่ง ผมเข้าใจดีว่าในแต่ละเดือนค่าใช้จ่ายมันตึงมือแค่ไหน และ <strong style="color:var(--t1);">"หนี้บ้าน"</strong> ก็มักจะเป็นภาระก้อนใหญ่ที่สุดของเราเสมอ<br><br>
+        ผมกับผู้ช่วย AI ร่วมกันสร้างเครื่องมือนี้ขึ้นมา โดยหวังว่ามันจะเป็นตัวช่วยเล็กๆ ให้ทุกคนเห็นภาพชัดเจนขึ้นว่า <strong style="color:var(--green);">แค่เราปรับพฤติกรรมนิดเดียว เราก็สามารถปลดแอกหนี้บ้านได้เร็วขึ้น และประหยัดเงินไปได้อีกหลายแสนบาทครับ</strong><br><br>
+        เป็นกำลังใจให้ทุกคนที่กำลังผ่อนบ้านนะครับ! 💪
+      </div>
+    </div>
+
+    <!-- ส่วนที่ 2: วิธีใช้งาน -->
+    <div style="background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:20px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+        <div style="font-size:18px;">👉</div>
+        <div style="font-size:15px;font-weight:800;color:var(--t1);">วิธีเริ่มใช้งานง่ายๆ ใน 3 ขั้นตอน</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;box-shadow:0 4px 12px rgba(61,142,240,.3);">1</div>
+          <div style="padding-top:4px;">
+            <div style="font-size:14px;font-weight:700;color:var(--t1);margin-bottom:3px;">เพิ่มข้อมูลบ้าน 🏠</div>
+            <div style="font-size:13px;color:var(--t2);line-height:1.6;">กดปุ่ม "+ เพิ่มหลัง" กรอกยอดหนี้คงเหลือ ดอกเบี้ย และยอดผ่อนปัจจุบัน</div>
+          </div>
+        </div>
+        <div style="margin-left:16px;height:1px;background:var(--b1);"></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--green);color:#07090f;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;box-shadow:0 4px 12px rgba(46,204,135,.3);">2</div>
+          <div style="padding-top:4px;">
+            <div style="font-size:14px;font-weight:700;color:var(--t1);margin-bottom:3px;">ลองจำลองการโปะ 🔮</div>
+            <div style="font-size:13px;color:var(--t2);line-height:1.6;">ไปที่แท็บ "คำนวณ" ลองเลื่อนสไลเดอร์ดูว่าถ้าจ่ายเพิ่มแค่นิดหน่อย จะประหยัดเงินได้เท่าไหร่</div>
+          </div>
+        </div>
+        <div style="margin-left:16px;height:1px;background:var(--b1);"></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);color:#07090f;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;box-shadow:0 4px 12px rgba(240,160,48,.3);">3</div>
+          <div style="padding-top:4px;">
+            <div style="font-size:14px;font-weight:700;color:var(--t1);margin-bottom:3px;">บันทึกทุกเดือน 📅</div>
+            <div style="font-size:13px;color:var(--t2);line-height:1.6;">กลับมาอัปเดตยอดทุกครั้งที่จ่ายบิล เพื่อดู "ภูเขาหนี้" ที่ค่อยๆ เล็กลง!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ส่วนที่ 3: เครดิตและติดต่อ -->
+    <div style="background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:20px;">
+      <div style="font-size:15px;font-weight:800;color:var(--t1);margin-bottom:16px;">🙏 เครดิตและช่องทางติดต่อ</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--s2);border-radius:var(--rs);">
+          <div style="font-size:22px;">💼</div>
+          <div>
+            <div style="font-size:11px;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">Design &amp; Logic</div>
+            <div style="font-size:14px;font-weight:600;color:var(--t1);">Isarapong Sornsena (Bew)</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--s2);border-radius:var(--rs);">
+          <div style="font-size:22px;">🤖</div>
+          <div>
+            <div style="font-size:11px;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">Code &amp; Calculation Engine</div>
+            <div style="font-size:14px;font-weight:600;color:var(--t1);">AI Assistant Collaboration</div>
+          </div>
+        </div>
+        <div style="height:1px;background:var(--b1);margin:2px 0;"></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--s2);border-radius:var(--rs);">
+          <div style="font-size:22px;">📧</div>
+          <div>
+            <div style="font-size:11px;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">Email</div>
+            <a href="mailto:itsarapong.sorn@gmail.com" style="font-size:14px;font-weight:600;color:var(--blue);text-decoration:none;">itsarapong.sorn@gmail.com</a>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--s2);border-radius:var(--rs);">
+          <div style="font-size:22px;">💬</div>
+          <div>
+            <div style="font-size:11px;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">Line ID</div>
+            <div style="font-size:14px;font-weight:600;color:var(--green);">freesthink</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Privacy & Disclaimer -->
+    <div style="background:rgba(255,255,255,.02);border:1px solid var(--b1);border-radius:var(--r);padding:16px;">
+      <div style="font-size:12px;font-weight:700;color:var(--t2);margin-bottom:10px;">🛡️ นโยบายความเป็นส่วนตัว &amp; ข้อจำกัด</div>
+      <div style="font-size:12px;color:var(--t3);line-height:1.8;">
+        <p style="margin-bottom:8px;"><strong style="color:var(--green);">100% Privacy:</strong> ข้อมูลทั้งหมดเก็บในอุปกรณ์ของคุณ (Local Storage) เท่านั้น ถ้า Login ด้วย Google จะ sync ขึ้น Firebase ของคุณ ไม่มีการแชร์ข้อมูลให้บุคคลอื่น</p>
+        <p><strong style="color:var(--gold);">⚠️ Disclaimer:</strong> เครื่องมือนี้ช่วยคำนวณเบื้องต้นเท่านั้น โปรดอ้างอิงตัวเลขจริงจากใบแจ้งหนี้ธนาคารเสมอ</p>
+      </div>
+    </div>
+
+    <!-- Version -->
+    <div style="text-align:center;padding:8px 0;">
+      <div style="font-size:11px;color:var(--t3);font-family:var(--fd);">บ้านเราผ่อนได้ v2.0 · Made with ❤️ + 🤖</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bnav" id="main-bnav">
+  <button class="bnav-item active" onclick="showMainPage('pg-home')" id="bn-home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    บ้าน
+  </button>
+  <button class="bnav-item" onclick="showMainPage('pg-magic')" id="bn-magic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    คำนวณ
+  </button>
+  <button class="bnav-item" onclick="showMainPage('pg-about')" id="bn-about">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    เกี่ยวกับ
+  </button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+// ══════════════════════════════════════════
+// LINE BROWSER DETECTION — ตรวจก่อนทุกอย่าง
+// ══════════════════════════════════════════
+function isLineBrowser(){
+  const ua = navigator.userAgent || '';
+  return /Line\//i.test(ua) || /LIFF/i.test(ua);
+}
+
+function isFBBrowser(){
+  const ua = navigator.userAgent || '';
+  return /FBAN|FBAV|Instagram/i.test(ua);
+}
+
+function isInAppBrowser(){
+  return isLineBrowser() || isFBBrowser();
+}
+
+// ══════════════════════════════════════════
+// FIREBASE CONFIG
+// ══════════════════════════════════════════
+const firebaseConfig = {
+  apiKey: "AIzaSyAte1HPXoMSsDChYo7pSreyB9-5tmrdld4",
+  authDomain: "baan-rao-phon-dai.firebaseapp.com",
+  projectId: "baan-rao-phon-dai",
+  storageBucket: "baan-rao-phon-dai.firebasestorage.app",
+  messagingSenderId: "137619340869",
+  appId: "1:137619340869:web:e6a4faa3b8efc9869bad2c"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db   = firebase.firestore();
+
+// ══════════════════════════════════════════
+// CONSTANTS
+// ══════════════════════════════════════════
+const COLORS={blue:'#3d8ef0',green:'#2ecc87',gold:'#f0a030',purple:'#a78bfa',teal:'#2dd4bf'};
+const AFFILIATE_URL='https://www.refinn.com/';
+
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+let S={houses:[],cur:null,htab:'dash',editId:null,selColor:'blue',editTiers:[],editPayIdx:null};
+let currentUser = null;
+let isGuestMode = false;
+
+// ══════════════════════════════════════════
+// SAVE / LOAD
+// ══════════════════════════════════════════
+async function save(){
+  // Guest mode หรือ ไม่มี user → เก็บ localStorage เสมอ
+  localStorage.setItem('bpd_v4', JSON.stringify({houses:S.houses, v:4}));
+  // ถ้า login จริง → sync ขึ้น Firebase ด้วย
+  if(currentUser && !isGuestMode){
+    try{
+      await db.collection('users').doc(currentUser.uid).set({
+        houses:S.houses, v:4, updatedAt:new Date().toISOString()
+      });
+    }catch(e){ console.error('Firebase save error:', e); }
+  }
+}
+
+async function loadFromFirebase(){
+  if(!currentUser || isGuestMode) return false;
+  try{
+    const doc = await db.collection('users').doc(currentUser.uid).get();
+    if(doc.exists && doc.data().houses){
+      S.houses = doc.data().houses;
+      return true;
+    }
+  }catch(e){ console.error('Firebase load:', e); }
+  return false;
+}
+
+function loadFromLocal(){
+  try{
+    const d = localStorage.getItem('bpd_v4');
+    if(d){ S.houses = JSON.parse(d).houses || []; return S.houses.length > 0; }
+  }catch(e){}
+  return false;
+}
+
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+
+// ══════════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════════
+
+// ── Google Login (Popup + Redirect fallback) ──
+async function signInWithGoogle(){
+  const btn = document.getElementById('login-btn');
+  if(btn){ btn.textContent='กำลังเข้าสู่ระบบ...'; btn.disabled=true; }
+
+  const provider = new firebase.auth.GoogleAuthProvider();
+
+  try{
+    // ลอง popup ก่อน
+    await auth.signInWithPopup(provider);
+  } catch(popupErr){
+    console.warn('Popup failed, trying redirect:', popupErr.code);
+    // ถ้า popup ล้มเหลว (in-app browser บาง type) ใช้ redirect
+    if(popupErr.code === 'auth/popup-blocked'
+       || popupErr.code === 'auth/popup-closed-by-user'
+       || popupErr.code === 'auth/cancelled-popup-request'){
+      try{
+        // บันทึก pending redirect
+        localStorage.setItem('bpd_auth_redirect', '1');
+        await auth.signInWithRedirect(provider);
+        // หน้าจะถูก redirect → กลับมาจะถูกจัดการโดย getRedirectResult
+      } catch(redirectErr){
+        console.error('Redirect also failed:', redirectErr);
+        if(btn){ btn.textContent='เข้าสู่ระบบด้วย Google'; btn.disabled=false; }
+        showToast('⚠️ กรุณาเปิดในเบราว์เซอร์จริง (Chrome/Safari)');
+      }
+    } else {
+      if(btn){ btn.textContent='เข้าสู่ระบบด้วย Google'; btn.disabled=false; }
+      showToast('เข้าสู่ระบบไม่สำเร็จ: '+popupErr.message);
+    }
+  }
+}
+
+// ── Guest Mode — ไม่ต้อง login ใช้ได้เลย ──
+function signInAsGuest(){
+  isGuestMode = true;
+  currentUser = null;
+  const hasLocal = loadFromLocal();
+  if(!hasLocal) loadDemoData();
+  document.getElementById('user-display-name').textContent = '';
+  document.getElementById('guest-badge-home').style.display = 'inline-flex';
+  document.getElementById('signout-btn').textContent = 'ออกจาก Guest';
+  hideLoginScreen();
+  renderHome();
+  refreshHouseSelect();
+  setTimeout(calcMagic, 100);
+  showToast('✦ Guest Mode — ข้อมูลเก็บในเครื่องนี้เท่านั้น');
+}
+
+// ── Sign Out ──
+function handleSignOut(){
+  if(isGuestMode){
+    if(!confirm('ออกจาก Guest Mode? ข้อมูลจะยังอยู่ในเครื่องนี้')) return;
+    isGuestMode = false;
+    S.houses = [];
+    showLoginScreen();
+    return;
+  }
+  if(!confirm('ออกจากระบบ?')) return;
+  auth.signOut().then(()=>{
+    S.houses = [];
+    currentUser = null;
+    isGuestMode = false;
+    showLoginScreen();
+    showToast('ออกจากระบบแล้ว');
+  });
+}
+
+function showLoginScreen(){
+  document.getElementById('main-bnav').style.display='none';
+  document.querySelectorAll('.page').forEach(p=>{
+    p.classList.remove('active');
+    p.style.display='';
+  });
+  const loginPage = document.getElementById('pg-login');
+  loginPage.classList.add('active');
+
+  // ตรวจว่าเป็น Line browser ไหม
+  if(isInAppBrowser()){
+    document.getElementById('line-browser-warn').style.display = 'block';
+    document.getElementById('google-login-wrap').style.display = 'none';
+  } else {
+    document.getElementById('line-browser-warn').style.display = 'none';
+    document.getElementById('google-login-wrap').style.display = 'block';
+  }
+}
+
+function hideLoginScreen(){
+  const loginPage = document.getElementById('pg-login');
+  loginPage.classList.remove('active');
+  loginPage.style.display = 'none';
+  showMainPage('pg-home');
+}
+
+// ══════════════════════════════════════════
+// CALCULATIONS (เหมือนเดิมทุกอย่าง)
+// ══════════════════════════════════════════
+function getEffRate(h,idx){
+  const evs=(h.rateEvents||[]).sort((a,b)=>a.month.localeCompare(b.month));
+  if(evs.length){
+    const pm=payMonth(h,idx);
+    let rate=null,mo=h.monthlyPayment;
+    for(const e of evs){if(e.month<=pm){rate=e.rate/100/12;mo=e.monthlyPayment||mo;}else break;}
+    if(rate!==null)return{rate,monthly:mo};
+  }
+  return fallbackRate(h,idx);
+}
+function fallbackRate(h,idx){
+  const t=h.tiers||[{months:9999,rate:4,monthlyPayment:h.monthlyPayment}];
+  let r=idx;
+  for(const ti of t){
+    if(r<ti.months)return{rate:ti.rate/100/12,monthly:ti.monthlyPayment||h.monthlyPayment};
+    r-=ti.months;
+  }
+  const last=t[t.length-1];
+  return{rate:last.rate/100/12,monthly:last.monthlyPayment||h.monthlyPayment};
+}
+function payMonth(h,idx){
+  if(!h.startMonth)return'9999-99';
+  const[y,m]=h.startMonth.split('-').map(Number);
+  const d=new Date(y,m-1+idx);
+  return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+}
+function curBal(h){return h.payments&&h.payments.length?h.payments[h.payments.length-1].balanceAfter:(h.balance||h.loanAmount);}
+function curRInfo(h){return getEffRate(h,(h.payments||[]).length);}
+function curInt(h){return curBal(h)*curRInfo(h).rate;}
+function annRate(h){return curRInfo(h).rate*12*100;}
+
+function project(h,extra=0){
+  let bal=curBal(h),m=0,s=[];
+  const base=(h.payments||[]).length;
+  while(bal>0.5&&m<600){
+    const{rate,monthly}=getEffRate(h,base+m);
+    const int=bal*rate,tot=monthly+extra;
+    if(tot<=int){s.push({m:m+1,int,prin:0,bal:bal+(int-tot)});break;}
+    const prin=Math.min(tot-int,bal);
+    bal=Math.max(0,bal-prin);
+    s.push({m:m+1,int,prin,bal});m++;
+    if(bal<0.5)break;
+  }
+  return s;
+}
+function sumInt(p){return p.reduce((s,x)=>s+x.int,0);}
+function simpleProject(bal,rateAnn,monthly,extra=0){
+  const rate=rateAnn/100/12;let b=bal,m=0,s=[];
+  while(b>0.5&&m<600){
+    const int=b*rate,tot=monthly+extra;
+    if(tot<=int)break;
+    b=Math.max(0,b-Math.min(tot-int,b));
+    s.push({bal:b,int});m++;
+    if(b<0.5)break;
+  }
+  return s;
+}
+
+// ══════════════════════════════════════════
+// FORMATTING
+// ══════════════════════════════════════════
+const fmt=n=>'฿'+Math.round(n||0).toLocaleString('th-TH');
+const fmtN=n=>Math.round(n||0).toLocaleString('th-TH');
+function mToY(m){const y=Math.floor(m/12),mo=m%12;if(!y)return`${mo}ด.`;if(!mo)return`${y}ปี`;return`${y}ปี ${mo}ด.`;}
+function mToYFull(m){const y=Math.floor(m/12),mo=m%12;if(!y)return`${mo} เดือน`;if(!mo)return`${y} ปี`;return`${y} ปี ${mo} เดือน`;}
+function ymLbl(ym){if(!ym)return'';const[y,m]=ym.split('-').map(Number);const mn=['','ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];return`${mn[m]} ${y+543}`;}
+function curYM(){const d=new Date();return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;}
+function paidThis(h){return(h.payments||[]).some(p=>p.month===curYM());}
+function moToNextTier(h){
+  const paid=(h.payments||[]).length;
+  const t=h.tiers||[];
+  let cum=0;
+  for(const ti of t){cum+=ti.months;if(paid<cum)return cum-paid;}
+  return null;
+}
+
+// ══════════════════════════════════════════
+// MAGIC SLIDER
+// ══════════════════════════════════════════
+let mgChart=null;
+
+function refreshHouseSelect(){
+  const sel=document.getElementById('mg-house-select');
+  if(!sel)return;
+  const cur=sel.value;
+  sel.innerHTML='<option value="">— กรอกเองแบบ Manual —</option>';
+  S.houses.forEach(h=>{
+    const opt=document.createElement('option');
+    opt.value=h.id;
+    opt.textContent=`${h.name} — ${fmt(curBal(h))} (${annRate(h).toFixed(2)}%/ปี)`;
+    if(h.id===cur)opt.selected=true;
+    sel.appendChild(opt);
+  });
+}
+
+function onSelectHouse(houseId){
+  const infoBox=document.getElementById('mg-house-info');
+  const srcLabel=document.getElementById('mg-source-label');
+  if(!houseId){
+    infoBox.style.display='none';
+    srcLabel.textContent='';
+    return;
+  }
+  const h=S.houses.find(x=>x.id===houseId);
+  if(!h)return;
+  const bal=curBal(h);
+  const rI=curRInfo(h);
+  const rate=rI.rate*12*100;
+  document.getElementById('mg-balance').value=Math.round(bal);
+  document.getElementById('mg-rate').value=rate.toFixed(3);
+  document.getElementById('mg-monthly').value=rI.monthly;
+  srcLabel.textContent='ดึงข้อมูลจริง ✓';
+  srcLabel.style.color='var(--green)';
+  const proj=project(h);
+  const color=COLORS[h.color||'blue'];
+  infoBox.style.display='block';
+  infoBox.innerHTML=`
+    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+      <span style="background:${color}20;border:1px solid ${color}40;color:${color};padding:3px 9px;border-radius:20px;font-size:12px;font-weight:700;">${h.name}</span>
+      <span class="pill" style="background:var(--s3);border:1px solid var(--b1);color:var(--t2);">เหลือ ${mToYFull(proj.length)}</span>
+    </div>
+    <div style="margin-top:8px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center;">
+      <div><div style="font-size:10px;color:var(--t3);">ยอดหนี้</div><div style="font-size:13px;font-weight:700;color:${color};">${fmt(bal)}</div></div>
+      <div><div style="font-size:10px;color:var(--t3);">ดอก/เดือน</div><div style="font-size:13px;font-weight:700;color:var(--red);">${fmt(curInt(h))}</div></div>
+      <div><div style="font-size:10px;color:var(--t3);">ผ่อน/เดือน</div><div style="font-size:13px;font-weight:700;">${fmt(rI.monthly)}</div></div>
+    </div>`;
+  calcMagic();
+}
+
+function onManualEdit(){
+  const sel=document.getElementById('mg-house-select');
+  if(sel)sel.value='';
+  const srcLabel=document.getElementById('mg-source-label');
+  if(srcLabel){srcLabel.textContent='Manual';srcLabel.style.color='var(--t3)';}
+  calcMagic();
+}
+
+function onSlide(v){
+  document.getElementById('mg-extra-display').textContent=fmt(Number(v));
+  calcMagic();
+}
+function setSlider(v){
+  document.getElementById('mg-slider').value=v;
+  onSlide(v);
+}
+
+function calcMagic(){
+  const bal=parseFloat(document.getElementById('mg-balance').value)||0;
+  const rate=parseFloat(document.getElementById('mg-rate').value)||0;
+  const monthly=parseFloat(document.getElementById('mg-monthly').value)||0;
+  const extra=parseFloat(document.getElementById('mg-slider').value)||0;
+  if(!bal||!rate||!monthly)return;
+  const pn=simpleProject(bal,rate,monthly,0);
+  const pe=simpleProject(bal,rate,monthly,extra);
+  const nm=pn.length,em=pe.length;
+  const ni=pn.reduce((s,x)=>s+x.int,0),ei=pe.reduce((s,x)=>s+x.int,0);
+  const saved=Math.max(0,ni-ei),faster=Math.max(0,nm-em);
+  document.getElementById('mg-faster').textContent=faster>0?mToY(faster):'เท่าเดิม';
+  document.getElementById('mg-from-to').textContent=faster>0?`${mToYFull(nm)} → ${mToYFull(em)}`:`จากเดิม ${mToYFull(nm)}`;
+  document.getElementById('mg-saved').textContent=fmt(saved);
+  const roi=extra>0&&em>0?(saved/(extra*em)*100).toFixed(0):0;
+  document.getElementById('mg-roi').textContent=extra>0?`ROI ${roi}% จากเงินโปะ`:'';
+  const step=Math.max(1,Math.floor(Math.max(nm,em)/20));
+  const labels=['ปัจจุบัน'],nd=[bal],ed=[bal];
+  for(let i=step-1;i<Math.max(nm,em);i+=step){
+    labels.push(`ปีที่${Math.ceil((i+1)/12)}`);
+    nd.push(i<nm?Math.max(0,pn[i].bal):0);
+    ed.push(i<em?Math.max(0,pe[i].bal):0);
+  }
+  const ctx=document.getElementById('mg-chart');
+  if(!ctx)return;
+  if(mgChart)mgChart.destroy();
+  mgChart=new Chart(ctx,{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'ผ่อนปกติ',data:nd,borderColor:'#4a6278',borderDash:[6,4],tension:.4,pointRadius:0,borderWidth:1.5,fill:false},
+      {label:'โปะ '+fmt(extra)+'/เดือน',data:ed,borderColor:'#2ecc87',backgroundColor:'rgba(46,204,135,.1)',fill:true,tension:.4,pointRadius:0,borderWidth:2}
+    ]},
+    options:{responsive:true,plugins:{legend:{labels:{color:'#8fa3b8',font:{size:11},boxWidth:12}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.raw)}`}}},
+    scales:{x:{ticks:{color:'#4a6278',font:{size:10},maxTicksLimit:8},grid:{color:'#1a2230'}},y:{ticks:{color:'#4a6278',font:{size:10},callback:v=>'฿'+(v/1e6).toFixed(1)+'M'},grid:{color:'#1a2230'}}}}
+  });
+}
+
+// ══════════════════════════════════════════
+// HOME PAGE
+// ══════════════════════════════════════════
+function renderHome(){
+  const list=document.getElementById('house-list');
+  if(!S.houses.length){
+    list.innerHTML=`<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><p>ยังไม่มีบ้านในระบบ<br>กด + เพิ่มหลังแรก</p></div>`;
+    ['H-total','H-int','H-cnt','H-saved'].forEach(id=>document.getElementById(id).textContent=id==='H-cnt'?'0 หลัง':'฿0');
+    document.getElementById('home-alerts').innerHTML='';
+    return;
+  }
+  let td=0,ti=0,tex=0;
+  const unpaid=[],retWarn=[];
+  list.innerHTML='';
+  S.houses.forEach((h,hi)=>{
+    const bal=curBal(h),int=curInt(h),rate=annRate(h);
+    const proj=project(h),months=proj.length;
+    const paid=h.loanAmount>0?((h.loanAmount-bal)/h.loanAmount*100):0;
+    const color=COLORS[h.color||'blue'];
+    const extra=(h.payments||[]).reduce((s,p)=>s+(p.extra||0),0);
+    const pt=paidThis(h);
+    td+=bal;ti+=int;tex+=extra;
+    if(!pt)unpaid.push(h.name);
+    const moLeft=moToNextTier(h);
+    if(moLeft!==null&&moLeft<=3&&moLeft>0)retWarn.push({name:h.name,mo:moLeft});
+    const refiN=(h.refiHistory||[]).length;
+    const card=document.createElement('div');
+    card.className='hcard';
+    card.style.animationDelay=hi*.06+'s';
+    card.innerHTML=`
+      <div class="hcard-glow" style="background:${color}"></div>
+      <div class="hcard-stripe" style="background:${color}"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-left:10px;">
+        <div style="font-size:16px;font-weight:700;">${h.name} ${refiN?`<span class="pill pill-orange" style="font-size:10px;">Refi×${refiN}</span>`:''}</div>
+        <div class="pill pill-blue" style="font-family:var(--fd);">${rate.toFixed(2)}%/ปี</div>
+      </div>
+      <div style="padding-left:10px;">
+        <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;">ยอดหนี้คงเหลือ</div>
+        <div style="font-size:26px;font-weight:800;font-family:var(--fd);letter-spacing:-.5px;color:${color};margin:2px 0 8px;">${fmt(bal)}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
+          <span class="pill" style="background:var(--s2);border:1px solid var(--b1);color:var(--t2);">เหลือ <strong>${mToY(months)}</strong></span>
+          <span class="pill" style="background:var(--s2);border:1px solid var(--b1);color:var(--red);">ดอก/เดือน ${fmt(int)}</span>
+          ${extra>0?`<span class="pill pill-gold">โปะแล้ว ${fmt(extra)}</span>`:''}
+        </div>
+        <div style="margin-bottom:4px;">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-bottom:4px;">
+            <span>ผ่อนไปแล้ว ${paid.toFixed(1)}%</span>
+            <span>${fmt(h.loanAmount-bal)} / ${fmt(h.loanAmount)}</span>
+          </div>
+          <div class="prog-track"><div class="prog-bar" style="width:${Math.min(paid,100)}%;background:${color};"></div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;">
+          <div style="width:7px;height:7px;border-radius:50%;background:${pt?'var(--green)':'var(--gold)'}"></div>
+          <span style="color:${pt?'var(--green)':'var(--gold)'}">
+            ${pt?'✅ ผ่อนเดือนนี้แล้ว':`⏰ ยังไม่ได้บันทึกเดือนนี้${h.dueDay?' (ครบ วันที่ '+h.dueDay+')':''}`}
+          </span>
+        </div>
+      </div>`;
+    card.onclick=()=>openHouse(h.id);
+    list.appendChild(card);
+  });
+  document.getElementById('H-total').textContent=fmt(td);
+  document.getElementById('H-int').textContent=fmt(ti);
+  document.getElementById('H-cnt').textContent=S.houses.length+' หลัง';
+  document.getElementById('H-saved').textContent=fmt(tex*.3);
+  let html='';
+  if(retWarn.length)retWarn.forEach(w=>{html+=`<div style="margin:8px 16px 0;padding:11px 13px;background:rgba(240,120,48,.09);border:1px solid rgba(240,120,48,.22);border-radius:var(--rs);display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">🔔</span><div style="font-size:12.5px;color:var(--t2);"><strong style="color:var(--orange);">${w.name}</strong> — ดอกเบี้ยจะเปลี่ยนอีก ${w.mo} เดือน!</div></div>`;});
+  if(unpaid.length)html+=`<div style="margin:8px 16px 0;padding:11px 13px;background:rgba(240,160,48,.09);border:1px solid rgba(240,160,48,.22);border-radius:var(--rs);display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">📅</span><div style="font-size:12.5px;color:var(--t2);"><strong style="color:var(--gold);">${unpaid.join(', ')}</strong> ยังไม่ได้บันทึกเดือนนี้</div></div>`;
+  document.getElementById('home-alerts').innerHTML=html;
+}
+
+// ══════════════════════════════════════════
+// HOUSE DETAIL (เหมือนเดิม — ย่อเพื่อความกระชับ)
+// ══════════════════════════════════════════
+function openHouse(id){
+  S.cur=id;S.htab='dash';
+  document.getElementById('main-bnav').style.display='none';
+  showPage('pg-house');
+  renderHouse();
+}
+function renderHouse(){
+  const h=S.houses.find(x=>x.id===S.cur);if(!h)return;
+  document.getElementById('h-nav-title').textContent=h.name;
+  document.querySelectorAll('.tabbtn').forEach((b,i)=>b.classList.toggle('active',['dash','hist','suggest','rate'][i]===S.htab));
+  renderHTab();
+}
+function switchHTab(t){S.htab=t;renderHouse();}
+function renderHTab(){
+  const h=S.houses.find(x=>x.id===S.cur);if(!h)return;
+  const c=document.getElementById('h-content');
+  if(S.htab==='dash')rdDash(h,c);
+  else if(S.htab==='hist')rdHist(h,c);
+  else if(S.htab==='suggest')rdSuggest(h,c);
+  else rdRate(h,c);
+}
+
+let dashCharts={};
+function rdDash(h,c){
+  const bal=curBal(h),rI=curRInfo(h),int=curInt(h);
+  const proj=project(h),months=proj.length;
+  const paid=h.loanAmount>0?((h.loanAmount-bal)/h.loanAmount*100):0;
+  const totalIntRem=sumInt(proj),color=COLORS[h.color||'blue'];
+  const tex=(h.payments||[]).reduce((s,p)=>s+(p.extra||0),0);
+  const moLeft=moToNextTier(h);
+  const retAlert=moLeft!==null&&moLeft<=3&&moLeft>0?`<div style="background:rgba(240,120,48,.1);border:1px solid rgba(240,120,48,.28);border-radius:var(--r);padding:14px;margin-bottom:12px;"><div style="font-size:12px;font-weight:700;color:var(--orange);margin-bottom:6px;">🔔 ใกล้ถึงเวลา Retention — อีก ${moLeft} เดือน!</div><div style="font-size:13px;color:var(--t2);">ติดต่อธนาคารเพื่อขอลดดอกเบี้ยได้เลย</div></div>`:'';
+  const intPct=Math.min(100,int/rI.monthly*100).toFixed(0);
+  const prinPct=(100-intPct).toFixed(0);
+  c.innerHTML=`<div class="pcontent">
+    ${retAlert}
+    <div style="background:var(--s1);border:1px solid ${color}40;border-radius:var(--r);padding:18px;margin-bottom:12px;position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,${color}10,transparent);border-radius:var(--r);pointer-events:none;"></div>
+      <div style="position:relative;">
+        <div class="eyebrow">ยอดหนี้คงเหลือ</div>
+        <div class="display" style="color:${color};margin:6px 0 14px;">${fmt(bal)}</div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-bottom:5px;">
+          <span>ผ่อนไปแล้ว <strong style="color:${color}">${paid.toFixed(1)}%</strong></span>
+          <span>${fmt(h.loanAmount-bal)} / ${fmt(h.loanAmount)}</span>
+        </div>
+        <div class="prog-track" style="height:8px;"><div class="prog-bar" style="width:${Math.min(paid,100)}%;background:${color};"></div></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+      <div class="card-sm"><div class="sec-title" style="margin-bottom:4px;">💸 ดอกเบี้ยเดือนนี้</div><div class="display-sm" style="color:var(--red);">${fmt(int)}</div><div style="font-size:11px;color:var(--t3);margin-top:3px;">${(rI.rate*12*100).toFixed(3)}%/ปี</div></div>
+      <div class="card-sm"><div class="sec-title" style="margin-bottom:4px;">📅 ปิดหนี้อีก</div><div class="display-sm" style="color:var(--blue);">${mToY(months)}</div><div style="font-size:11px;color:var(--t3);margin-top:3px;">${months} งวด</div></div>
+      <div class="card-sm"><div class="sec-title" style="margin-bottom:4px;">🏦 เงินต้น/เดือน</div><div class="display-sm" style="color:var(--green);">${fmt(rI.monthly-int)}</div><div style="font-size:11px;color:var(--t3);margin-top:3px;">จากผ่อน ${fmt(rI.monthly)}</div></div>
+      <div class="card-sm"><div class="sec-title" style="margin-bottom:4px;">📈 ดอกรวมที่เหลือ</div><div class="display-sm" style="color:var(--gold);">${fmt(totalIntRem)}</div><div style="font-size:11px;color:var(--t3);margin-top:3px;">ถ้าไม่โปะเพิ่ม</div></div>
+    </div>
+    <div class="card" style="margin-bottom:12px;">
+      <div class="sec-title" style="margin-bottom:10px;">สัดส่วนค่างวดเดือนนี้</div>
+      <div style="display:flex;border-radius:6px;overflow:hidden;height:28px;margin-bottom:8px;">
+        <div style="width:${intPct}%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;">${intPct}%</div>
+        <div style="width:${prinPct}%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#07090f;">${prinPct}%</div>
+      </div>
+      <div style="display:flex;gap:16px;font-size:12px;">
+        <span style="color:var(--red);">■ ดอกเบี้ย ${fmt(int)}</span>
+        <span style="color:var(--green);">■ เงินต้น ${fmt(rI.monthly-int)}</span>
+      </div>
+    </div>
+    ${tex>0?`<div style="background:linear-gradient(135deg,var(--gold-g),var(--s1));border:1px solid rgba(240,160,48,.28);border-radius:var(--r);padding:16px;margin-bottom:12px;"><div class="sec-title" style="color:var(--gold);margin-bottom:10px;">💰 ผลสะสมจากการโปะ</div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span style="font-size:13px;color:var(--t2);">โปะสะสมแล้ว</span><span style="font-size:14px;font-weight:700;color:var(--gold);">${fmt(tex)}</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;"><span style="font-size:13px;color:var(--t2);">ดอกที่ประหยัดโดยประมาณ</span><span style="font-size:14px;font-weight:700;color:var(--green);">~${fmt(tex*.35)}</span></div></div>`:''}
+    <div class="card" style="margin-bottom:12px;">
+      <div class="sec-title" style="margin-bottom:12px;">ภูเขาหนี้ที่กำลังลดลง 🏔️</div>
+      <div class="chart-wrap"><canvas id="chart-area" height="200"></canvas></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+      <div class="card-sm"><div class="sec-title" style="margin-bottom:8px;">ผ่อนแล้ว</div><canvas id="chart-donut" height="120"></canvas></div>
+      <div class="card-sm"><div class="sec-title" style="margin-bottom:8px;">ดอก vs เงินต้น</div><canvas id="chart-bar6" height="120"></canvas></div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-primary" style="flex:2;" onclick="openPayModal()">+ บันทึกผ่อน</button>
+      <button class="btn btn-gold btn-sm" onclick="openModal('m-rate')">📊 Retention</button>
+      <button class="btn btn-danger btn-sm" onclick="openRefiModal()">🔄 Refi</button>
+    </div>
+  </div>`;
+  setTimeout(()=>{drawAreaChart(h);drawDonut(h,bal,color);drawBar6(h);},60);
+}
+
+function drawAreaChart(h){
+  const ctx=document.getElementById('chart-area');if(!ctx)return;
+  const proj=project(h),bal=curBal(h),color=COLORS[h.color||'blue'];
+  const step=Math.max(1,Math.floor(proj.length/20));
+  const labels=['ปัจจุบัน'],data=[bal];
+  for(let i=step-1;i<proj.length;i+=step){labels.push(`ปีที่${Math.ceil((i+1)/12)}`);data.push(Math.max(0,proj[i].bal));}
+  if(dashCharts.area)dashCharts.area.destroy();
+  dashCharts.area=new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'ยอดหนี้',data,borderColor:color,backgroundColor:color+'22',fill:true,tension:.4,pointRadius:2,borderWidth:2}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt(c.raw)}}},scales:{x:{ticks:{color:'#4a6278',font:{size:10},maxTicksLimit:8},grid:{color:'#1a2230'}},y:{ticks:{color:'#4a6278',font:{size:10},callback:v=>'฿'+(v/1e6).toFixed(1)+'M'},grid:{color:'#1a2230'}}}}});
+}
+function drawDonut(h,bal,color){
+  const ctx=document.getElementById('chart-donut');if(!ctx)return;
+  const paidAmt=h.loanAmount-bal;
+  if(dashCharts.donut)dashCharts.donut.destroy();
+  dashCharts.donut=new Chart(ctx,{type:'doughnut',data:{labels:['ผ่อนแล้ว','คงเหลือ'],datasets:[{data:[Math.max(0,paidAmt),bal],backgroundColor:[color+'cc','#1a2230'],borderColor:[color,'#1e2836'],borderWidth:2}]},options:{responsive:true,cutout:'72%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.label}: ${fmt(c.raw)}`}}}}});
+}
+function drawBar6(h){
+  const ctx=document.getElementById('chart-bar6');if(!ctx)return;
+  const last6=[...(h.payments||[])].slice(-6);
+  if(!last6.length)return;
+  if(dashCharts.bar6)dashCharts.bar6.destroy();
+  dashCharts.bar6=new Chart(ctx,{type:'bar',data:{labels:last6.map(p=>ymLbl(p.month).split(' ')[0]),datasets:[{label:'ดอก',data:last6.map(p=>Math.round(p.interest)),backgroundColor:'rgba(240,82,82,.7)',borderRadius:3,stack:'s'},{label:'เงินต้น',data:last6.map(p=>Math.round(p.principal)),backgroundColor:'rgba(46,204,135,.7)',borderRadius:3,stack:'s'}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#4a6278',font:{size:9}},grid:{display:false},stacked:true},y:{ticks:{color:'#4a6278',font:{size:9},callback:v=>Math.round(v/1000)+'K'},grid:{color:'#1a2230'},stacked:true}}}});
+}
+
+function rdHist(h,c){
+  const pays=[...(h.payments||[])].reverse();
+  c.innerHTML=`<div class="pcontent">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <span style="font-size:13px;color:var(--t3);">${pays.length} รายการ</span>
+      <button class="btn btn-primary btn-sm" onclick="openPayModal()">+ บันทึก</button>
+    </div>
+    ${!pays.length?`<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><p>ยังไม่มีประวัติ</p></div>`:
+    `<div style="display:flex;flex-direction:column;gap:8px;">${pays.map(p=>{const origIdx=(h.payments||[]).findIndex(x=>x.month===p.month&&x.regular===p.regular);return`<div style="background:var(--s1);border:1px solid var(--b1);border-radius:var(--rs);padding:12px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div><div style="font-weight:700;font-size:14px;">${ymLbl(p.month)}</div>${p.note?`<div style="font-size:11px;color:var(--t3);">${p.note}</div>`:''}</div><div style="display:flex;gap:5px;"><button class="ibtn" onclick="editPayment(${origIdx})"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="ibtn" style="color:var(--red)" onclick="deletePayment(${origIdx})"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button></div></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;"><div style="text-align:center;padding:6px;background:var(--s2);border-radius:6px;"><div style="font-size:10px;color:var(--t3);">ผ่อน</div><div style="font-size:13px;font-weight:700;">${fmtN(p.regular)}</div></div><div style="text-align:center;padding:6px;background:var(--s2);border-radius:6px;"><div style="font-size:10px;color:var(--t3);">โปะ</div><div style="font-size:13px;font-weight:700;color:${p.extra?'var(--gold)':'var(--t3)'};">${p.extra?fmtN(p.extra):'—'}</div></div><div style="text-align:center;padding:6px;background:var(--s2);border-radius:6px;"><div style="font-size:10px;color:var(--t3);">ดอกเบี้ย</div><div style="font-size:13px;font-weight:700;color:var(--red);">${fmtN(p.interest)}</div></div><div style="text-align:center;padding:6px;background:var(--s2);border-radius:6px;"><div style="font-size:10px;color:var(--t3);">คงเหลือ</div><div style="font-size:12px;font-weight:700;font-family:var(--fd);">${fmtN(p.balanceAfter)}</div></div></div></div>`;}).join('')}</div>`}
+  </div>`;
+}
+
+function rdSuggest(h,c){
+  const bal=curBal(h),rate=annRate(h),rI=curRInfo(h),int=curInt(h);
+  const proj=project(h),months=proj.length;
+  const moLeft=moToNextTier(h);
+  const pExtra5=project(h,5000),savedExtra5=Math.max(0,sumInt(proj)-sumInt(pExtra5));
+  const suggestions=[];
+  if(moLeft!==null&&moLeft<=6&&moLeft>0)suggestions.push({type:'orange',icon:'🔔',title:`Retention — เหลืออีก ${moLeft} เดือน`,body:`ดอกเบี้ยจะปรับเพิ่มในอีก ${moLeft} เดือน ติดต่อธนาคารล่วงหน้าเพื่อขอ Retention ก่อนครบกำหนด`});
+  if(rate>4.5){const ps=bal*(rate-3.5)/100;suggestions.push({type:'gold',icon:'🏦',title:'พิจารณา Refinance',body:`อัตราปัจจุบัน ${rate.toFixed(2)}%/ปี ถ้า Refinance ได้ที่ 3.5% ประหยัดดอก ${fmt(ps)}/ปี`,cta:true});}
+  if(savedExtra5>0)suggestions.push({type:'green',icon:'💰',title:'โปะ 5,000 บาท/เดือน ให้อะไร?',body:`ปิดหนี้เร็วขึ้น ${mToYFull(proj.length-pExtra5.length)} ประหยัดดอก ${fmt(savedExtra5)}`});
+  if(S.houses.length>1){const sorted=[...S.houses].sort((a,b)=>annRate(b)-annRate(a));if(sorted[0].id===h.id)suggestions.push({type:'blue',icon:'❄️',title:'Debt Snowball — โปะหลังนี้ก่อน',body:`บ้านนี้ดอกสูงสุด (${rate.toFixed(2)}%/ปี) ควรโปะก่อนเพื่อประหยัดดอกได้มากที่สุด`});}
+  const intRatio=int/rI.monthly;
+  if(intRatio>0.65)suggestions.push({type:'blue',icon:'📊',title:'ดอกเบี้ยยังสูงกว่าเงินต้น',body:`ค่างวด ${fmt(rI.monthly)} ไปเป็นดอก ${(intRatio*100).toFixed(0)}% การโปะเพิ่มช่วยได้มากครับ`});
+  if(!suggestions.length)suggestions.push({type:'green',icon:'✅',title:'สถานะดีมาก!',body:`ยอดหนี้ลดลงตามแผน ทำต่อไปครับ!`});
+  c.innerHTML=`<div class="pcontent"><div class="sec-title" style="margin-bottom:12px;">คำแนะนำจากระบบ 💡</div>${suggestions.map(s=>`<div class="suggest-card suggest-${s.type}"><div class="suggest-title">${s.icon} ${s.title}</div><div class="suggest-body">${s.body}</div>${s.cta?`<a href="#" onclick="affiliateClick(event)" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:8px 14px;background:var(--gold);color:#07090f;border-radius:var(--rs);font-size:12px;font-weight:700;text-decoration:none;">⚡ เช็คอัตรา →</a>`:''}</div>`).join('')}</div>`;
+}
+
+function rdRate(h,c){
+  const tiers=h.tiers||[];
+  const evs=(h.rateEvents||[]).sort((a,b)=>a.month.localeCompare(b.month));
+  const refi=(h.refiHistory||[]);
+  const paid=(h.payments||[]).length;
+  let cum=0;
+  const tierRows=tiers.map((t,i)=>{const start=cum;cum+=t.months;const isCur=paid>=start&&(paid<cum||i===tiers.length-1);const lbl=i===tiers.length-1?'จนหมดหนี้':`เดือน ${start+1}–${cum}`;return`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px ${isCur?'10px':'0'};border-bottom:1px solid var(--b1);${isCur?'background:rgba(61,142,240,.04);border-radius:6px;margin:0 -10px;padding:8px 10px;':''}"><span style="font-size:13px;color:var(--t2);">${isCur?'▶ ':''}${lbl} | ${fmt(t.monthlyPayment||h.monthlyPayment)}/เดือน</span><span class="pill pill-blue">${t.rate}%</span></div>`;}).join('');
+  c.innerHTML=`<div class="pcontent"><div style="display:flex;gap:8px;margin-bottom:14px;"><button class="btn btn-gold btn-sm" onclick="openModal('m-rate')">📊 Retention</button><button class="btn btn-danger btn-sm" onclick="openRefiModal()">🔄 Refinance</button></div><div class="card" style="margin-bottom:12px;"><div class="sec-title" style="margin-bottom:8px;">ดอกเบี้ยขั้นบันได</div>${tierRows}</div><div class="card" style="margin-bottom:12px;"><div class="sec-title" style="margin-bottom:8px;">ประวัติ Retention</div>${evs.length?evs.map(e=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--b1);"><div><div style="font-size:13px;font-weight:700;">${ymLbl(e.month)}</div><div style="font-size:11px;color:var(--t3);">${e.note||'Retention'}</div></div><span class="pill pill-orange">${e.rate}%</span></div>`).join(''):'<div style="font-size:13px;color:var(--t3);padding:8px 0;">ยังไม่มีประวัติ</div>'}</div>${refi.length?`<div class="card"><div class="sec-title" style="margin-bottom:8px;">ประวัติ Refinance</div>${refi.map(r=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--b1);"><div><div style="font-size:13px;font-weight:700;">${ymLbl(r.month)} → ${r.bank}</div></div><span class="pill pill-red">Refi</span></div>`).join('')}</div>`:''}</div>`;
+}
+
+// ══════════════════════════════════════════
+// HOUSE ADD/EDIT
+// ══════════════════════════════════════════
+function openAddHouse(editId=null){
+  S.editId=editId;
+  S.editTiers=[{months:36,rate:2.8,monthlyPayment:22200},{months:9999,rate:5.55,monthlyPayment:38300}];
+  S.selColor='blue';
+  const foot=document.getElementById('mh-foot');
+  const old=foot.querySelector('.del-btn');if(old)old.remove();
+  if(editId){
+    const h=S.houses.find(x=>x.id===editId);
+    if(h){
+      document.getElementById('f-name').value=h.name;
+      document.getElementById('f-loan').value=h.loanAmount;
+      document.getElementById('f-balance').value=curBal(h);
+      document.getElementById('f-monthly').value=h.monthlyPayment;
+      document.getElementById('f-dueday').value=h.dueDay||'';
+      document.getElementById('f-start').value=h.startMonth||'';
+      S.selColor=h.color||'blue';
+      S.editTiers=JSON.parse(JSON.stringify(h.tiers||S.editTiers));
+      document.getElementById('mh-title').textContent='แก้ไขข้อมูลบ้าน';
+      document.getElementById('mh-save-btn').textContent='บันทึกการแก้ไข';
+      const d=document.createElement('button');
+      d.className='btn btn-danger btn-sm del-btn';d.textContent='ลบบ้านนี้';
+      d.onclick=()=>{if(confirm('ลบบ้านนี้?')){S.houses=S.houses.filter(x=>x.id!==editId);save();closeModal('m-house');showMainPage('pg-home');renderHome();showToast('ลบสำเร็จ');}};
+      foot.prepend(d);
+    }
+  } else {
+    ['f-name','f-loan','f-balance','f-monthly','f-dueday'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('f-start').value=curYM();
+    document.getElementById('mh-title').textContent='เพิ่มบ้านหลังใหม่';
+    document.getElementById('mh-save-btn').textContent='บันทึก';
+  }
+  pickColor(S.selColor);renderTierInputs();openModal('m-house');
+}
+function openEditHouse(){const h=S.houses.find(x=>x.id===S.cur);if(h)openAddHouse(h.id);}
+function pickColor(c){S.selColor=c;document.querySelectorAll('.cp-dot').forEach(d=>{d.classList.toggle('sel',d.dataset.c===c);d.style.border=d.dataset.c===c?`3px solid ${COLORS[c]}`:'2.5px solid transparent';});}
+function addTier(){S.editTiers.push({months:12,rate:3.5,monthlyPayment:0});renderTierInputs();}
+function removeTier(i){if(S.editTiers.length>1){S.editTiers.splice(i,1);renderTierInputs();}}
+function renderTierInputs(){
+  document.getElementById('tier-inputs').innerHTML=S.editTiers.map((t,i)=>`<div style="background:var(--s2);border:1px solid var(--b1);border-radius:var(--rs);padding:10px;margin-bottom:8px;"><div style="font-size:11px;color:var(--t3);font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">${i===S.editTiers.length-1?'ช่วงสุดท้าย':' ช่วงที่ '+(i+1)}${i>0?`<button class="ibtn" style="float:right;padding:3px 6px;" onclick="removeTier(${i})"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`:''}</div><div class="form-row" style="margin-bottom:8px;"><div class="fg" style="margin-bottom:0"><label class="fl">จำนวนเดือน</label><input class="fi" type="number" value="${t.months>=9999?'':t.months}" placeholder="${i===S.editTiers.length-1?'∞':'36'}" ${i===S.editTiers.length-1?'disabled':''} onchange="S.editTiers[${i}].months=this.value?parseInt(this.value):9999"></div><div class="fg" style="margin-bottom:0"><label class="fl">ดอกเบี้ย (%/ปี)</label><input class="fi" type="number" step=".001" value="${t.rate}" onchange="S.editTiers[${i}].rate=parseFloat(this.value)||0"></div></div><div class="fg" style="margin-bottom:0"><label class="fl">ยอดผ่อน/เดือน</label><input class="fi" type="number" value="${t.monthlyPayment||''}" placeholder="22,200" onchange="S.editTiers[${i}].monthlyPayment=parseFloat(this.value)||0"></div></div>`).join('');
+}
+function saveHouse(){
+  const name=document.getElementById('f-name').value.trim();
+  const loan=parseFloat(document.getElementById('f-loan').value);
+  const bal=parseFloat(document.getElementById('f-balance').value);
+  const mo=parseFloat(document.getElementById('f-monthly').value);
+  const due=parseInt(document.getElementById('f-dueday').value)||null;
+  const start=document.getElementById('f-start').value;
+  if(!name||isNaN(loan)||isNaN(bal)||isNaN(mo)){showToast('กรุณากรอกข้อมูลให้ครบ');return;}
+  const tiers=S.editTiers.map((t,i)=>({months:i===S.editTiers.length-1?9999:(parseInt(t.months)||36),rate:parseFloat(t.rate)||4,monthlyPayment:parseFloat(t.monthlyPayment)||mo}));
+  if(S.editId){
+    const idx=S.houses.findIndex(x=>x.id===S.editId);
+    if(idx!==-1){S.houses[idx]={...S.houses[idx],name,loanAmount:loan,monthlyPayment:mo,startMonth:start,color:S.selColor,tiers,dueDay:due};if(!S.houses[idx].payments||!S.houses[idx].payments.length)S.houses[idx].balance=bal;}
+  }else{
+    S.houses.push({id:uid(),name,loanAmount:loan,balance:bal,monthlyPayment:mo,startMonth:start,color:S.selColor,tiers,dueDay:due,payments:[],rateEvents:[],refiHistory:[]});
+  }
+  save();closeModal('m-house');renderHome();refreshHouseSelect();showToast('บันทึกสำเร็จ 🏠');
+}
+
+// ══════════════════════════════════════════
+// PAYMENT CRUD
+// ══════════════════════════════════════════
+function openPayModal(editIdx=null){
+  const h=S.houses.find(x=>x.id===S.cur);if(!h)return;
+  S.editPayIdx=editIdx;
+  const isEdit=editIdx!==null;
+  document.getElementById('mp-title').textContent=isEdit?'แก้ไขการผ่อน':'บันทึกการผ่อน';
+  document.getElementById('mp-save-btn').textContent=isEdit?'บันทึกการแก้ไข':'บันทึก';
+  const foot=document.getElementById('mp-foot');
+  const old=foot.querySelector('.del-pay-btn');if(old)old.remove();
+  if(isEdit){
+    const p=h.payments[editIdx];
+    document.getElementById('p-month').value=p.month;
+    document.getElementById('p-reg').value=p.regular;
+    document.getElementById('p-extra').value=p.extra||'';
+    document.getElementById('p-note').value=p.note||'';
+    const d=document.createElement('button');
+    d.className='btn btn-danger btn-sm del-pay-btn';d.innerHTML='🗑️ ลบ';
+    d.onclick=()=>deletePayment(editIdx);
+    foot.prepend(d);
+  }else{
+    document.getElementById('p-month').value=curYM();
+    document.getElementById('p-reg').value=curRInfo(h).monthly;
+    document.getElementById('p-extra').value='';
+    document.getElementById('p-note').value='';
+    document.getElementById('p-hint').innerHTML='';
+  }
+  openModal('m-pay');
+}
+function editPayment(idx){openPayModal(idx);}
+function deletePayment(idx){
+  const h=S.houses.find(x=>x.id===S.cur);if(!h)return;
+  if(!confirm(`ลบประวัติ ${ymLbl(h.payments[idx].month)} ?`))return;
+  h.payments.splice(idx,1);
+  save();closeModal('m-pay');renderHTab();showToast('ลบสำเร็จ 🗑️');
+}
+function savePayment(){
+  const h=S.houses.find(x=>x.id===S.cur);if(!h)return;
+  const month=document.getElementById('p-month').value;
+  const reg=parseFloat(document.getElementById('p-reg').value)||0;
+  const extra=parseFloat(document.getElementById('p-extra').value)||0;
+  const note=document.getElementById('p-note').value.trim();
+  if(!month||reg<=0){showToast('กรุณากรอกข้อมูลให้ครบ');return;}
+  const isEdit=S.editPayIdx!==null;
+  let balBefore;
+  if(isEdit){const idx=S.editPayIdx;balBefore=idx>0?h.payments[idx-1].balanceAfter:(h.balance||h.loanAmount);}
+  else balBefore=curBal(h);
+  const payIdx=isEdit?S.editPayIdx:(h.payments||[]).length;
+  const rI=getEffRate(h,payIdx);
+  const interest=balBefore*rI.rate;
+  const principal=Math.min(reg-interest,balBefore);
+  const balAfter=Math.max(0,balBefore-principal-extra);
+  const entry={month,regular:reg,extra,interest,principal,balanceAfter:balAfter,note};
+  if(!h.payments)h.payments=[];
+  if(isEdit){h.payments[S.editPayIdx]=entry;recalcFrom(h,S.editPayIdx+1);}
+  else{h.payments.push(entry);h.payments.sort((a,b)=>a.month.localeCompare(b.month));}
+  S.editPayIdx=null;
+  save();closeModal('m-pay');renderHTab();showToast(isEdit?'แก้ไขสำเร็จ':'บันทึกสำเร็จ 💳');
+}
+function recalcFrom(h,startIdx){
+  for(let i=startIdx;i<h.payments.length;i++){
+    const p=h.payments[i];
+    const balBefore=h.payments[i-1].balanceAfter;
+    const rI=getEffRate(h,i);
+    const interest=balBefore*rI.rate;
+    const principal=Math.min(p.regular-interest,balBefore);
+    const balAfter=Math.max(0,balBefore-principal-(p.extra||0));
+    h.payments[i]={...p,interest,principal,balanceAfter:balAfter};
+  }
+}
+
+// ══════════════════════════════════════════
+// RATE / REFINANCE
+// ══════════════════════════════════════════
+function saveRateUpdate(){
+  const h=S.houses.find(x=>x.id===S.cur);if(!h)return;
+  const month=document.getElementById('r-month').value;
+  const rate=parseFloat(document.getElementById('r-rate').value);
+  const mo=parseFloat(document.getElementById('r-monthly').value)||h.monthlyPayment;
+  const note=document.getElementById('r-note').value.trim()||'Retention';
+  if(!month||isNaN(rate)){showToast('กรุณากรอกข้อมูลให้ครบ');return;}
+  if(!h.rateEvents)h.rateEvents=[];
+  h.rateEvents=h.rateEvents.filter(e=>e.month!==month);
+  h.rateEvents.push({month,rate,monthlyPayment:mo,note});
+  h.rateEvents.sort((a,b)=>a.month.localeCompare(b.month));
+  save();closeModal('m-rate');renderHTab();showToast(`Retention ${rate}% บันทึกแล้ว 📊`);
+}
+function openRefiModal(){
+  const h=S.houses.find(x=>x.id===S.cur);if(!h)return;
+  document.getElementById('rf-month').value=curYM();
+  document.getElementById('rf-bank').value='';
+  document.getElementById('rf-loan').value=Math.round(curBal(h));
+  document.getElementById('rf-mo').value='';
+  document.getElementById('rf-rate').value='';
+  openModal('m-refi');
+}
+function saveRefinance(){
+  const h=S.houses.find(x=>x.id===S.cur);if(!h)return;
+  const month=document.getElementById('rf-month').value;
+  const bank=document.getElementById('rf-bank').value.trim()||'ธนาคารใหม่';
+  const loan=parseFloat(document.getElementById('rf-loan').value);
+  const mo=parseFloat(document.getElementById('rf-mo').value)||h.monthlyPayment;
+  const rate=parseFloat(document.getElementById('rf-rate').value)||2.8;
+  if(!month||isNaN(loan)){showToast('กรุณากรอกข้อมูลให้ครบ');return;}
+  if(!h.refiHistory)h.refiHistory=[];
+  h.refiHistory.push({month,bank,oldBalance:curBal(h),oldLoan:h.loanAmount,paymentCount:(h.payments||[]).length});
+  h.loanAmount=loan;h.balance=loan;h.monthlyPayment=mo;
+  h.tiers=[{months:36,rate,monthlyPayment:mo},{months:9999,rate:rate+2.75,monthlyPayment:mo*1.5}];
+  h.payments=[];h.rateEvents=[];
+  save();closeModal('m-refi');renderHTab();showToast(`Refinance → ${bank} สำเร็จ! 🔄`);
+}
+
+// ══════════════════════════════════════════
+// EXPORT / BACKUP / RESTORE
+// ══════════════════════════════════════════
+function openExport(){
+  const items=document.getElementById('export-items');
+  items.innerHTML=[
+    {icon:'📄',title:'CSV ประวัติหลังนี้',sub:'เปิดใน Excel/Sheets',fn:"exportCSV();closeModal('m-export')"},
+    {icon:'📊',title:'CSV ทุกหลัง',sub:'Backup ทุกบ้าน',fn:"exportAllCSV();closeModal('m-export')"},
+    {icon:'📈',title:'ตารางผ่อนล่วงหน้า',sub:'ทุกงวดจนหมดหนี้',fn:"exportProjection();closeModal('m-export')"}
+  ].map(x=>`<div onclick="${x.fn}" style="display:flex;align-items:center;gap:14px;padding:14px;background:var(--s2);border:1px solid var(--b1);border-radius:var(--rs);cursor:pointer;margin-bottom:8px;"><div style="font-size:24px;">${x.icon}</div><div><div style="font-size:14px;font-weight:700;">${x.title}</div><div style="font-size:12px;color:var(--t3);">${x.sub}</div></div></div>`).join('');
+  openModal('m-export');
+}
+function dl(rows,name){const csv='\uFEFF'+rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));a.download=name;a.click();}
+function exportCSV(){const h=S.houses.find(x=>x.id===S.cur);if(!h)return;const rows=[['เดือน','ยอดผ่อน','ยอดโปะ','ดอกเบี้ย','เงินต้น','ยอดคงเหลือ','หมายเหตุ']];(h.payments||[]).forEach(p=>rows.push([p.month,p.regular,p.extra||0,Math.round(p.interest),Math.round(p.principal),Math.round(p.balanceAfter),p.note||'']));dl(rows,`${h.name}_ประวัติ.csv`);showToast('Export CSV สำเร็จ!');}
+function exportAllCSV(){const rows=[['บ้าน','เดือน','ยอดผ่อน','ยอดโปะ','ดอกเบี้ย','เงินต้น','ยอดคงเหลือ']];S.houses.forEach(h=>(h.payments||[]).forEach(p=>rows.push([h.name,p.month,p.regular,p.extra||0,Math.round(p.interest),Math.round(p.principal),Math.round(p.balanceAfter)])));dl(rows,'ทุกหลัง_Backup.csv');showToast('Export สำเร็จ!');}
+function exportProjection(){const h=S.houses.find(x=>x.id===S.cur);if(!h)return;const proj=project(h);const rows=[['งวดที่','ดอกเบี้ย','เงินต้น','ยอดคงเหลือ']];proj.forEach((p,i)=>rows.push([i+1,Math.round(p.int),Math.round(p.prin),Math.round(p.bal)]));dl(rows,`${h.name}_ตารางผ่อน.csv`);showToast('Export สำเร็จ!');}
+
+function openBackupModal(){openModal('m-backup');}
+function backupJSON(){
+  const data=JSON.stringify({houses:S.houses,v:4,exportedAt:new Date().toISOString()},null,2);
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([data],{type:'application/json'}));
+  a.download=`บ้านเราผ่อนได้_backup_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  showToast('Backup ดาวน์โหลดแล้ว 💾');
+}
+function restoreJSON(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      if(!data.houses||!Array.isArray(data.houses))throw new Error('ไฟล์ไม่ถูกต้อง');
+      if(!confirm(`Restore ${data.houses.length} หลัง? ข้อมูลปัจจุบันจะถูกแทนที่`))return;
+      S.houses=data.houses;save();closeModal('m-backup');renderHome();showToast('Restore สำเร็จ! 📤');
+    }catch(err){showToast('ไฟล์ไม่ถูกต้อง: '+err.message);}
+  };
+  reader.readAsText(file);input.value='';
+}
+
+function affiliateClick(e){
+  e.preventDefault();
+  showToast('🏦 กำลังเปิดหน้า Refinance...');
+  setTimeout(()=>window.open(AFFILIATE_URL,'_blank'),800);
+}
+
+// ══════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+function showMainPage(id){
+  showPage(id);
+  document.getElementById('main-bnav').style.display='flex';
+  document.querySelectorAll('.bnav-item').forEach(b=>b.classList.remove('active'));
+  const map={'pg-home':'bn-home','pg-magic':'bn-magic','pg-about':'bn-about'};
+  const btn=document.getElementById(map[id]);if(btn)btn.classList.add('active');
+  if(id==='pg-home')renderHome();
+  if(id==='pg-magic'){refreshHouseSelect();calcMagic();}
+}
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600);}
+
+// ══════════════════════════════════════════
+// DEMO DATA
+// ══════════════════════════════════════════
+function loadDemoData(){
+  const scbPays=[
+    {month:'2024-03',regular:22200,extra:0,interest:14784.00,principal:7416.00,balanceAfter:6328584.00,note:'งวด 1'},
+    {month:'2024-04',regular:22200,extra:0,interest:14766.70,principal:7433.30,balanceAfter:6321150.70,note:'งวด 2'},
+    {month:'2024-05',regular:22200,extra:0,interest:14749.35,principal:7450.65,balanceAfter:6313700.05,note:'งวด 3'},
+    {month:'2024-06',regular:22200,extra:0,interest:14731.97,principal:7468.03,balanceAfter:6306232.02,note:'งวด 4'},
+    {month:'2024-07',regular:22200,extra:0,interest:14714.54,principal:7485.46,balanceAfter:6298746.56,note:'งวด 5'},
+    {month:'2024-08',regular:22200,extra:0,interest:14697.08,principal:7502.92,balanceAfter:6291243.64,note:'งวด 6'},
+    {month:'2024-09',regular:22200,extra:0,interest:14679.57,principal:7520.43,balanceAfter:6283723.21,note:'งวด 7'},
+    {month:'2024-10',regular:22200,extra:0,interest:14662.02,principal:7537.98,balanceAfter:6276185.23,note:'งวด 8'},
+    {month:'2024-11',regular:22200,extra:0,interest:14644.43,principal:7555.57,balanceAfter:6268629.66,note:'งวด 9'},
+    {month:'2024-12',regular:22200,extra:0,interest:14626.80,principal:7573.20,balanceAfter:6261056.46,note:'งวด 10'},
+    {month:'2025-01',regular:22200,extra:0,interest:14609.13,principal:7590.87,balanceAfter:6253465.59,note:'งวด 11'},
+    {month:'2025-02',regular:22200,extra:0,interest:14591.42,principal:7608.58,balanceAfter:6245857.01,note:'งวด 12'},
+    {month:'2025-03',regular:22200,extra:0,interest:14573.67,principal:7626.33,balanceAfter:6238230.68,note:'งวด 13'},
+    {month:'2025-04',regular:22200,extra:0,interest:14555.87,principal:7644.13,balanceAfter:6230586.55,note:'งวด 14'},
+    {month:'2025-05',regular:22200,extra:0,interest:14538.04,principal:7661.96,balanceAfter:6222924.59,note:'งวด 15'},
+    {month:'2025-06',regular:22200,extra:0,interest:14520.16,principal:7679.84,balanceAfter:6215244.75,note:'งวด 16'},
+    {month:'2025-07',regular:22200,extra:0,interest:14502.24,principal:7697.76,balanceAfter:6207546.99,note:'งวด 17'},
+    {month:'2025-08',regular:22200,extra:0,interest:14484.28,principal:7715.72,balanceAfter:6199831.27,note:'งวด 18'},
+    {month:'2025-09',regular:22200,extra:0,interest:14466.27,principal:7733.73,balanceAfter:6192097.54,note:'งวด 19'},
+    {month:'2025-10',regular:22200,extra:0,interest:14448.23,principal:7751.77,balanceAfter:6184345.77,note:'งวด 20'},
+    {month:'2025-11',regular:22200,extra:0,interest:14430.14,principal:7769.86,balanceAfter:6176575.91,note:'งวด 21'},
+    {month:'2025-12',regular:22200,extra:0,interest:14412.01,principal:7787.99,balanceAfter:6168787.92,note:'งวด 22'},
+    {month:'2026-01',regular:22200,extra:0,interest:14393.84,principal:7806.16,balanceAfter:6160981.76,note:'งวด 23'},
+    {month:'2026-02',regular:22200,extra:0,interest:14375.62,principal:7824.38,balanceAfter:6425436.29,note:'งวด 24 (ยอดจริงจากธนาคาร)'},
+  ];
+  S.houses=[{
+    id:uid(),name:'บ้าน SCB',loanAmount:6632184,balance:6425436.29,monthlyPayment:22200,
+    startMonth:'2024-03',color:'blue',dueDay:28,
+    tiers:[{months:36,rate:2.800,monthlyPayment:22200},{months:9999,rate:5.550,monthlyPayment:38300}],
+    rateEvents:[],refiHistory:[],payments:scbPays
+  }];
+}
+
+// ══════════════════════════════════════════
+// INIT — Firebase Auth Flow + Redirect Result
+// ══════════════════════════════════════════
+async function initApp(){
+  // จัดการ redirect result ก่อน (กรณีที่ signInWithRedirect ถูกใช้)
+  try{
+    const result = await auth.getRedirectResult();
+    if(result && result.user){
+      // redirect login สำเร็จ
+      localStorage.removeItem('bpd_auth_redirect');
+      // auth.onAuthStateChanged จะจัดการต่อ
+    }
+  }catch(e){
+    console.error('getRedirectResult error:', e);
+    localStorage.removeItem('bpd_auth_redirect');
+  }
+
+  // Firebase Auth State Listener
+  auth.onAuthStateChanged(async(user)=>{
+    if(user && !isGuestMode){
+      currentUser = user;
+      const nameEl=document.getElementById('user-display-name');
+      const photoEl=document.getElementById('user-photo');
+      if(nameEl) nameEl.textContent = user.displayName || user.email;
+      if(photoEl && user.photoURL) photoEl.src = user.photoURL;
+      document.getElementById('guest-badge-home').style.display = 'none';
+      document.getElementById('signout-btn').textContent = 'ออกจากระบบ';
+
+      const loaded = await loadFromFirebase();
+      if(!loaded){
+        const hasLocal = loadFromLocal();
+        if(!hasLocal) loadDemoData();
+        await save();
+      }
+      hideLoginScreen();
+      renderHome();
+      refreshHouseSelect();
+      setTimeout(calcMagic, 100);
+    } else if(!isGuestMode) {
+      currentUser = null;
+      showLoginScreen();
+    }
+  });
+}
+
+// เริ่ม app
+initApp();
+</script>
+</body>
+</html>
